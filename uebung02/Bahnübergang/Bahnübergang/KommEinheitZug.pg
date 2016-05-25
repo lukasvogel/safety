@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="5f94632b-5b94-4c1f-ada0-70daa72218d2" name="KommEinheitZug" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="614e072f-ba26-424d-8dc9-f8aae5083839" name="InitialNode1">
+      <successors>
+        <transition Id="9b609bf0-0fb0-437a-87c2-4bdb24fe2779">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="f9d5521f-37d4-4871-989b-29c6f099e50d" name="Idle">
+      <successors>
+        <transition Id="8ec9f874-9064-4562-a317-ba67db072c5e" guard="ReportedPosition &gt;= EiP" action="KanalZuUeb  := BitteSichern" label="ReportedPosition &gt;= EiP // KanalZuUeb  := BitteSichern" precondition="true">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
+        </transition>
+        <transition Id="1f2532c3-ee64-44e1-a408-d467901f187d" guard="ReportedPosition &gt;= AP" action="KanalZuUeb  := BitteUmBest" label="ReportedPosition &gt;= AP // KanalZuUeb  := BitteUmBest" precondition="true">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/WarteAufBest" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="aa715f3f-d543-4e08-9444-96849d287770" name="WarteAufBest">
+      <successors>
+        <transition Id="5ce3709e-db49-47ca-8403-b5be68965372" guard="ReportedPosition &gt;= BEP &amp;&amp; KanalZuZug != IstGesichert" label="ReportedPosition &gt;= BEP &amp;&amp; KanalZuZug != IstGesichert">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/KeineBestErhalten" />
+        </transition>
+        <transition Id="0aa22167-17e8-489f-98b2-c7e904eb3cef" guard="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert" label="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert" precondition="true">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/BestErhalten" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="39065245-0fdc-4075-8159-e3b081af1cd4" name="KeineBestErhalten">
+      <successors>
+        <transition Id="31f476c9-84de-4287-a57e-e94977e3a807" guard="ReportedPosition &gt;= SP" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= SP // KanalZuUeb := Nil" precondition="true">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="00dee0ca-7012-462a-ba44-4122b2688f2d" name="BestErhalten">
+      <successors>
+        <transition Id="1a7ab05f-6ae6-4d97-bd7b-fe2ab88574e6" guard="ReportedPosition &gt;= SP" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= SP // KanalZuUeb := Nil" precondition="true">
+          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <variables>
+    <programGraphHasVariables Id="c5d70c29-d5ff-48e1-a829-057895bb37b1">
+      <variable Id="c3c11a2e-943e-4558-88e8-d41c309d7659" name="KanalZuUeb" range="BitteSichern, BitteUmBest, Nil" />
+    </programGraphHasVariables>
+  </variables>
+  <macros>
+    <programGraphHasMacros Id="f40d64b8-25c4-437f-92d5-51c8df1ce3f8">
+      <macro Id="8bfbf173-d416-49de-b196-8f59ccec0eb5" name="EiP" body="AP - ReportedSpeed * (z + ReportedSpeed)" />
+    </programGraphHasMacros>
+    <programGraphHasMacros Id="d828ff8f-beda-41d7-8622-e7e0c963014c">
+      <macro Id="8d18e25b-6571-4aba-83ce-7656abbd1491" name="AP" body="BEP - 2 * z * ReportedSpeed" />
+    </programGraphHasMacros>
+    <programGraphHasMacros Id="04690e77-a176-43f9-b850-06d96dbcef89">
+      <macro Id="9a5bb414-a873-4cb5-a0b3-8ca8c9d84f7a" name="BEP" body="GP - z -  ReportedSpeed * ReportedSpeed / ( 2 * 10)" />
+    </programGraphHasMacros>
+    <programGraphHasMacros Id="ce059c21-2906-4eb0-a5ee-c920a877879b">
+      <macro Id="57fb7089-77dd-4051-a710-066258e1c477" name="GP" body="95" />
+    </programGraphHasMacros>
+    <programGraphHasMacros Id="96c72440-ed39-4207-b623-38d9681a8f81">
+      <macro Id="aedc46de-579d-47b2-9e90-76c5b6edd12f" name="z" body="5" />
+    </programGraphHasMacros>
+    <programGraphHasMacros Id="98e157d7-9bd4-4023-8355-9b7219ef053f">
+      <macro Id="7bd974b6-de31-4bab-ae55-630ea519ad2f" name="SP" body="100" />
+    </programGraphHasMacros>
+  </macros>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="f8a05c38-950e-426d-950f-c113560bf44d">
+      <importedVariable Id="16048ed3-6fe4-4135-ba34-ddd4862359e2" name="Hodometer.ReportedSpeed" range="0..10" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="f24a65ba-9b5f-4e89-9f79-84d83c291465">
+      <importedVariable Id="904c1560-e541-48c4-ba78-27695c27ea53" name="Hodometer.ReportedPosition" range="0..100" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="83b3af70-bda5-4311-a1c8-38f1504fbf24">
+      <importedVariable Id="28b5afa5-b66e-40de-8291-a85990d3a553" name="KommEinheitUebergang.KanalZuZug" range="IstGesichert, Nil" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

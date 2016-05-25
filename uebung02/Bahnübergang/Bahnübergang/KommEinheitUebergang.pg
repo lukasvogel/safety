@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="57db7684-b0d6-493f-a6f1-56819fb03789" name="KommEinheitUebergang" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="9b55ced1-b88d-4e39-9ac6-fe51ef205863" name="InitialNode1">
+      <successors>
+        <transition Id="5c39b987-274b-4eeb-9632-2bdaf24b0d0f">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/WarteAufAnfrage" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="da767dc0-2f1e-40b9-8d07-6683838d50c7" name="WarteAufAnfrage">
+      <successors>
+        <transition Id="9075e04b-da8e-46f2-8eb8-4b3d40c4a1c9" guard="KanalZuUeb == BitteSichern" label="KanalZuUeb == BitteSichern">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Sichere" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="a4c8e060-989d-4317-bcd5-d87ac080d093" name="Sichere">
+      <successors>
+        <transition Id="8a3f33fe-d100-451b-9d25-9a7800a0a10e" guard="SAnschlagssensor == AnschlagZu" label="SAnschlagssensor == AnschlagZu">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Gesichert" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="40053b9b-c1e8-4011-ad52-8dd881a88c9a" name="Gesichert">
+      <successors>
+        <transition Id="f3d3c0f6-d447-439b-8ce3-0dd954a9890c" guard="SUeberfahrtSensor == UeberfahrtZu" label="SUeberfahrtSensor == UeberfahrtZu">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Oeffne" />
+        </transition>
+        <transition Id="99bd771d-9879-401d-bae2-5639b4931e75" guard="KanalZuUeb == BitteUmBest" action="KanalZuZug := IstGesichert" label="KanalZuUeb == BitteUmBest // KanalZuZug := IstGesichert" precondition="true">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Gesichert" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="eb93ce4a-087f-46df-a6d4-c5c04491f70e" name="Oeffne">
+      <successors>
+        <transition Id="60bb50a7-8627-44f8-b10a-beee9dadf6ed" action="KanalZuZug := Nil" label="// KanalZuZug := Nil" precondition="true">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/WarteAufAnfrage" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <variables>
+    <programGraphHasVariables Id="1bc3c954-eed6-44af-9c21-7a5e877f76ec">
+      <variable Id="1143d1df-0ec5-4aab-9249-843629aba757" name="KanalZuZug" range="IstGesichert, Nil" />
+    </programGraphHasVariables>
+  </variables>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="ceaeadae-6155-4256-8a13-05417800f382">
+      <importedVariable Id="b89a4872-b637-494c-9645-626e4deea8a3" name="KommEinheitZug.KanalZuUeb" range="BitteSichern, BitteUmBest, Nil" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="f2217cb5-eaa5-49d0-affd-d934853c7dd8">
+      <importedVariable Id="3544fe99-b9ce-43a5-b18d-ceb69352385e" name="SAnschlagssensor" range="AnschlagOffen, AnschlagZu" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="ff49a3f6-baa9-4c7d-9701-75b055da78a0">
+      <importedVariable Id="10d3474b-0038-4b2d-86ac-14acaa8b9e15" name="SUeberfahrtSensor" range="UeberfahrtOffen, UeberfahrtZu" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

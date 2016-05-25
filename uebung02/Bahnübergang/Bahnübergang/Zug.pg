@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="53c0a73f-34a3-418f-bb2b-b68ecb5798ee" name="Zug" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="a6c2aae3-f704-46ea-bbcb-2dca9c618f9d" name="InitialNode1">
+      <successors>
+        <transition Id="3eaa2fcd-fd2b-4bc1-b64e-aea8ea6af14a">
+          <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Fahrend" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="d250b1f4-18a6-4e73-91ac-c1b722ac8b55" name="Fahrend">
+      <successors>
+        <transition Id="39da5684-053c-4fbf-b8fc-ef70b33a104e" guard="Geschwindigkeit &gt; 0" action="Position := Position + Geschwindigkeit" label="Geschwindigkeit &gt; 0 // Position := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 100">
+          <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Fahrend" />
+        </transition>
+        <transition Id="e6e2c187-f60b-41ee-a498-a82fedf48ca1" guard="Geschwindigkeit == 0" label="Geschwindigkeit == 0">
+          <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Stehend" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="70fb7e77-1c38-454f-9b8a-c551165fd2fb" name="Stehend">
+      <successors>
+        <transition Id="a9b24bc5-9dfa-4b30-a322-f3704829d1f2" guard="Geschwindigkeit &gt; 0 &amp;&amp; Zugnotbremse == NotbremseAus" action="Position := Position + Geschwindigkeit" label="Geschwindigkeit &gt; 0 &amp;&amp; Zugnotbremse == NotbremseAus // Position := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 100">
+          <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Fahrend" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <variables>
+    <programGraphHasVariables Id="cca87dc0-d44c-4b5b-b231-a6b5def2c2f4">
+      <variable Id="ec47cf99-afcb-41d7-8592-d76fc3e498e7" name="Geschwindigkeit" range="0..10" />
+    </programGraphHasVariables>
+    <programGraphHasVariables Id="a1dc85c9-500a-4f32-8a8a-628ed56b6d8e">
+      <variable Id="fa1646bd-fbdb-4b4f-8a1d-94ba3f2d6818" name="Position" range="0..100" />
+    </programGraphHasVariables>
+  </variables>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="15eb613b-b2d8-404d-8618-424c76cb22a4">
+      <importedVariable Id="cbabb8e7-3f4d-4bfb-8706-e97b3a40634a" name="Zugnotbremse" range="NotbremseAus, NotbremseEin" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

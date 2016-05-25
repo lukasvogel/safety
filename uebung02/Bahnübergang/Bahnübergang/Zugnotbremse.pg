@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="4a06d72a-fd47-4660-a48b-08fd4f2e59f0" name="Zugnotbremse" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="b657a9b6-374e-4221-a0da-f341d8cd4430" name="InitialNode1">
+      <successors>
+        <transition Id="db6d8846-1b5e-4963-871a-1900d26eccca">
+          <stateMoniker name="/4a06d72a-fd47-4660-a48b-08fd4f2e59f0/NotbremseAus" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="7d1f6d57-aea4-4428-aaae-d2782da0726c" name="NotbremseAus">
+      <successors>
+        <transition Id="c09ff0aa-6684-4d9b-89c6-1faa5f8ca8bf" guard="KommEinheitZug == KeineBestErhalten" label="KommEinheitZug == KeineBestErhalten">
+          <stateMoniker name="/4a06d72a-fd47-4660-a48b-08fd4f2e59f0/NotbremseEin" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="1370dfdc-efe6-43d5-807a-9d86ebea2459" name="NotbremseEin">
+      <successors>
+        <transition Id="ebfc921c-121d-47e8-bf20-0c189761ae17" guard="ReportedSpeed == 0" label="ReportedSpeed == 0">
+          <stateMoniker name="/4a06d72a-fd47-4660-a48b-08fd4f2e59f0/NotbremseAus" />
+        </transition>
+        <transition Id="65244d6b-55ee-4f28-8420-45c2faccd671" action="Geschwindigkeit := 0" label="// Geschwindigkeit := 0" precondition="true">
+          <stateMoniker name="/4a06d72a-fd47-4660-a48b-08fd4f2e59f0/NotbremseEin" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="c9b707cf-c1e2-47df-a8bb-3e022f97c1da">
+      <importedVariable Id="63febad9-dbbe-4601-89a5-be482f801335" name="KommEinheitZug" range="Idle, WarteAufBest, KeineBestErhalten, BestErhalten" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="f9da9d45-2bdc-4d12-a6ac-c32cda33e48b">
+      <importedVariable Id="872fbc24-baac-42f6-8588-c4bf154865db" name="Hodometer.ReportedSpeed" range="0..10" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="725022c7-8f9a-4c62-a941-3b11967fc459">
+      <importedVariable Id="b27e3a67-cdc0-423a-bac6-b86edfdc88b1" name="Zug.Geschwindigkeit" range="0..10" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

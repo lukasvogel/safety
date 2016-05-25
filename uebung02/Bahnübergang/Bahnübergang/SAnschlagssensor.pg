@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="385c76ad-5ef8-4426-b73e-4d293578c006" name="SAnschlagssensor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="b2977bf2-396c-450d-84b7-2ab6671663d7" name="InitialNode1">
+      <successors>
+        <transition Id="9ad93f8e-1f5a-495b-963b-0e0a1ee717a6">
+          <stateMoniker name="/385c76ad-5ef8-4426-b73e-4d293578c006/AnschlagOffen" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="9bdf5a03-a7f9-461e-9930-3925deccd781" name="AnschlagOffen">
+      <successors>
+        <transition Id="c956664b-85f7-423a-9f40-6f9fa885a589" guard="SchrankenWinkel == 0" label="SchrankenWinkel == 0">
+          <stateMoniker name="/385c76ad-5ef8-4426-b73e-4d293578c006/AnschlagZu" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="1799365b-352e-4ac3-bedf-f72700496463" name="AnschlagZu">
+      <successors>
+        <transition Id="ecba7330-f3ca-47d4-b1f0-337634d72fe1" guard="SchrankenWinkel != 0" label="SchrankenWinkel != 0">
+          <stateMoniker name="/385c76ad-5ef8-4426-b73e-4d293578c006/AnschlagOffen" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="a4f5cb62-045d-4ae1-ad68-dca24d8c140e">
+      <importedVariable Id="f02f0a00-f54e-45ba-9322-288f2986c4e3" name="SMotor.SchrankenWinkel" range="0,45,90" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>
