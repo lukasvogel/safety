@@ -28,20 +28,8 @@
         </transition>
       </successors>
     </state>
-    <state Id="39065245-0fdc-4075-8159-e3b081af1cd4" name="KeineBestErhalten">
-      <successors>
-        <transition Id="31f476c9-84de-4287-a57e-e94977e3a807" guard="ReportedPosition &gt;= SP" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= SP // KanalZuUeb := Nil" precondition="true">
-          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
-        </transition>
-      </successors>
-    </state>
-    <state Id="00dee0ca-7012-462a-ba44-4122b2688f2d" name="BestErhalten">
-      <successors>
-        <transition Id="1a7ab05f-6ae6-4d97-bd7b-fe2ab88574e6" guard="ReportedPosition &gt;= SP" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= SP // KanalZuUeb := Nil" precondition="true">
-          <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
-        </transition>
-      </successors>
-    </state>
+    <state Id="39065245-0fdc-4075-8159-e3b081af1cd4" name="KeineBestErhalten" />
+    <state Id="00dee0ca-7012-462a-ba44-4122b2688f2d" name="BestErhalten" />
   </states>
   <variables>
     <programGraphHasVariables Id="c5d70c29-d5ff-48e1-a829-057895bb37b1">
