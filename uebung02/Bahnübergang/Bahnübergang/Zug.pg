@@ -10,7 +10,7 @@
     </initialNode>
     <state Id="d250b1f4-18a6-4e73-91ac-c1b722ac8b55" name="Fahrend">
       <successors>
-        <transition Id="39da5684-053c-4fbf-b8fc-ef70b33a104e" guard="Geschwindigkeit &gt; 0" action="Position := Position + Geschwindigkeit" label="Geschwindigkeit &gt; 0 // Position := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 100">
+        <transition Id="39da5684-053c-4fbf-b8fc-ef70b33a104e" guard="Geschwindigkeit &gt; 0" action="Position := Position + Geschwindigkeit" label="Geschwindigkeit &gt; 0 // Position := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 120">
           <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Fahrend" />
         </transition>
         <transition Id="e6e2c187-f60b-41ee-a498-a82fedf48ca1" guard="Geschwindigkeit == 0" label="Geschwindigkeit == 0">

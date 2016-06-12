@@ -4,5 +4,12 @@
 
 <#=  TransformToNuSMV() #>
 
+-- Der Zug überfährt immer den Überfahrtsensor
 LTLSPEC F v.V_SUeberfahrtSensor = L_UeberfahrtZu;
-LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SchrankenWinkel = 0);
+
+-- Wenn der Übergang die Sicherungsnachricht erhält, ist er irgendwann auch gesichert
+LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SAnschlagssensor = L_SchrankeUnten);
+
+-- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
+LTLSPEC F v.V_Position > 100;
+

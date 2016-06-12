@@ -10,14 +10,14 @@
     </initialNode>
     <state Id="594273a6-9eac-4269-8aeb-a65ca9b7ce0d" name="UeberfahrtOffen">
       <successors>
-        <transition Id="7c748f1d-e856-4673-90dd-8db29a00d6d6" guard="Position &gt;= SP" label="Position &gt;= SP">
+        <transition Id="7c748f1d-e856-4673-90dd-8db29a00d6d6" guard="Position &gt;= SP &amp;&amp; Position &lt;= SP + 10" label="Position &gt;= SP &amp;&amp; Position &lt;= SP + 10">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtZu" />
         </transition>
       </successors>
     </state>
     <state Id="4ee37f71-dad1-4ca8-90d7-3e041b885537" name="UeberfahrtZu">
       <successors>
-        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="Position &lt;= SP" label="Position &lt;= SP">
+        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="Position &lt; SP" label="Position &lt; SP">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtOffen" />
         </transition>
       </successors>

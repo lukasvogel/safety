@@ -81,10 +81,10 @@ MODULE _P_SUeberfahrtSensor(v)
 	INIT
 		(v.V_SUeberfahrtSensor = L_UeberfahrtOffen) & (TRUE)
 	TRANS
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (v.V_Position >= 100) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & (v.V_Position <= 100) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & !(v.V_Position >= 100) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & !(v.V_Position <= 100) & (TRUE));
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & ((v.V_Position >= 100) & (v.V_Position <= (100 + 10))) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & (v.V_Position < 100) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & !((v.V_Position >= 100) & (v.V_Position <= (100 + 10))) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & !(v.V_Position < 100) & (TRUE));
 MODULE _P_Timer(v)
 	INIT
 		(v.V_Timer = L_TimerIdle) & ((v.V_Countdown = 100))
@@ -99,10 +99,10 @@ MODULE _P_Zug(v)
 	INIT
 		(v.V_Zug = L_Fahrend) & (((v.V_Position = 0) & (v.V_Geschwindigkeit = 2)))
 	TRANS
-		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Fahrend & ((v.V_Geschwindigkeit > 0) & ((v.V_Position + v.V_Geschwindigkeit) <= 100)) & (next(v.V_Position) = (v.V_Position + v.V_Geschwindigkeit)))  |
+		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Fahrend & ((v.V_Geschwindigkeit > 0) & ((v.V_Position + v.V_Geschwindigkeit) <= 120)) & (next(v.V_Position) = (v.V_Position + v.V_Geschwindigkeit)))  |
 		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Stehend & (v.V_Geschwindigkeit = 0) & (next(v.V_Position) = v.V_Position))  |
 		 ( v.V_Zug = L_Stehend & next(v.V_Zug) = L_Fahrend & (((v.V_Geschwindigkeit > 0) & (v.V_Zugnotbremse = L_NotbremseAus)) & ((v.V_Position + v.V_Geschwindigkeit) <= 100)) & (next(v.V_Position) = (v.V_Position + v.V_Geschwindigkeit)))  |
-		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Fahrend & (!((v.V_Geschwindigkeit > 0) & ((v.V_Position + v.V_Geschwindigkeit) <= 100)) & !(v.V_Geschwindigkeit = 0)) & (next(v.V_Position) = v.V_Position))  |
+		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Fahrend & (!((v.V_Geschwindigkeit > 0) & ((v.V_Position + v.V_Geschwindigkeit) <= 120)) & !(v.V_Geschwindigkeit = 0)) & (next(v.V_Position) = v.V_Position))  |
 		 ( v.V_Zug = L_Stehend & next(v.V_Zug) = L_Stehend & !(((v.V_Geschwindigkeit > 0) & (v.V_Zugnotbremse = L_NotbremseAus)) & ((v.V_Position + v.V_Geschwindigkeit) <= 100)) & (next(v.V_Position) = v.V_Position));
 MODULE _P_Zugnotbremse(v)
 	INIT
@@ -129,5 +129,12 @@ MODULE main
 
 
 
+-- Der Zug ?berf?hrt immer den ?berfahrtsensor
 LTLSPEC F v.V_SUeberfahrtSensor = L_UeberfahrtZu;
-LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SchrankenWinkel = 0);
+
+-- Wenn der ?bergang die Sicherungsnachricht erh?lt, ist er irgendwann auch gesichert
+LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SAnschlagssensor = L_SchrankeUnten);
+
+-- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
+LTLSPEC F v.V_Position > 100;
+
