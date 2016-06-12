@@ -3,3 +3,6 @@
 <#@ assembly Name="Safety.ProgramGraphDsl.dll" #>
 
 <#=  TransformToNuSMV() #>
+
+LTLSPEC F v.V_SUeberfahrtSensor = L_UeberfahrtZu;
+LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SchrankenWinkel = 0);

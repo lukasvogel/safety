@@ -84,6 +84,10 @@
     <None Include="SAnschlagssensor.pg.diagram">
       <DependentUpon>SAnschlagssensor.pg</DependentUpon>
     </None>
+    <None Include="Schranke.pg" />
+    <None Include="Schranke.pg.diagram">
+      <DependentUpon>Schranke.pg</DependentUpon>
+    </None>
     <None Include="SMotor.pg" />
     <None Include="SMotor.pg.diagram">
       <DependentUpon>SMotor.pg</DependentUpon>
@@ -91,6 +95,10 @@
     <None Include="SUeberfahrtSensor.pg" />
     <None Include="SUeberfahrtSensor.pg.diagram">
       <DependentUpon>SUeberfahrtSensor.pg</DependentUpon>
+    </None>
+    <None Include="Timer.pg" />
+    <None Include="Timer.pg.diagram">
+      <DependentUpon>Timer.pg</DependentUpon>
     </None>
     <None Include="Zug.pg" />
     <None Include="Zug.pg.diagram">

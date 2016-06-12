@@ -10,14 +10,14 @@
     </initialNode>
     <state Id="594273a6-9eac-4269-8aeb-a65ca9b7ce0d" name="UeberfahrtOffen">
       <successors>
-        <transition Id="7c748f1d-e856-4673-90dd-8db29a00d6d6" guard="ReportedPosition &gt;= SP" label="ReportedPosition &gt;= SP">
+        <transition Id="7c748f1d-e856-4673-90dd-8db29a00d6d6" guard="Position &gt;= SP" label="Position &gt;= SP">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtZu" />
         </transition>
       </successors>
     </state>
     <state Id="4ee37f71-dad1-4ca8-90d7-3e041b885537" name="UeberfahrtZu">
       <successors>
-        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="ReportedPosition &lt;= SP" label="ReportedPosition &lt;= SP">
+        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="Position &lt;= SP" label="Position &lt;= SP">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtOffen" />
         </transition>
       </successors>
@@ -30,7 +30,7 @@
   </macros>
   <importedVariables>
     <programGraphHasImportedVariables Id="83308648-31e5-407c-9c1e-89f2388de86d">
-      <importedVariable Id="8a970c2a-434f-449c-b732-1ae989e9c905" name="Hodometer.ReportedPosition" range="0..100" />
+      <importedVariable Id="8a970c2a-434f-449c-b732-1ae989e9c905" name="Zug.Position" range="0..120" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

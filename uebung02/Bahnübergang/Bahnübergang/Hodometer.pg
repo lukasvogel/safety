@@ -3,7 +3,7 @@
   <states>
     <initialNode Id="b3a83d8e-5a00-4d05-8dec-f0de4e86a99a" name="InitialNode1">
       <successors>
-        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12">
+        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12" guard="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit" label="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit">
           <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
         </transition>
       </successors>
@@ -18,7 +18,7 @@
   </states>
   <variables>
     <programGraphHasVariables Id="cca51d06-7756-4cc0-a8dd-c43c02b8364c">
-      <variable Id="983d7d42-8cca-4106-9b8c-31426e5fdb4c" name="ReportedPosition" range="0..100" />
+      <variable Id="983d7d42-8cca-4106-9b8c-31426e5fdb4c" name="ReportedPosition" range="0..120" />
     </programGraphHasVariables>
     <programGraphHasVariables Id="3ecbf411-d2db-4872-a7e6-e80d16a6d51e">
       <variable Id="0b6aa313-8e1e-4736-9c60-4ab48f984309" name="ReportedSpeed" range="0..10" />
@@ -29,7 +29,7 @@
       <importedVariable Id="51f946f0-39a2-4fdb-b3d7-c30bdbd24b58" name="Zug.Geschwindigkeit" range="0..10" />
     </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="2ad97cc2-a0f9-494e-bd3f-0917d99e2ad0">
-      <importedVariable Id="c90ad8f6-2e86-4758-bcd3-2eb722b43cf1" name="Zug.Position" range="0..100" />
+      <importedVariable Id="c90ad8f6-2e86-4758-bcd3-2eb722b43cf1" name="Zug.Position" range="0..120" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

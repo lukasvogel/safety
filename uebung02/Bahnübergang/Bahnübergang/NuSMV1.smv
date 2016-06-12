@@ -2,23 +2,26 @@
 MODULE _VARS
 	VAR
 		V_Hodometer : {L_Calc};
-		V_ReportedPosition : 0..100;
+		V_ReportedPosition : 0..120;
 		V_ReportedSpeed : 0..10;
 		V_Geschwindigkeit : 0..10;
-		V_Position : 0..100;
+		V_Position : 0..120;
 		V_KommEinheitUebergang : {L_WarteAufAnfrage, L_Sichere, L_Gesichert, L_Oeffne};
 		V_KanalZuZug : {L_IstGesichert, L_Nil};
 		V_KanalZuUeb : {L_BitteSichern, L_BitteUmBest, L_Nil};
-		V_SAnschlagssensor : {L_AnschlagOffen, L_AnschlagZu};
 		V_SUeberfahrtSensor : {L_UeberfahrtOffen, L_UeberfahrtZu};
+		V_SAnschlagssensor : {L_SchrankeUnten, L_SchrankeOben, L_KeinKontakt};
+		V_Timer : {L_TimerIdle, L_TimerCounting, L_TimerTriggered};
 		V_KommEinheitZug : {L_Idle, L_WarteAufBest, L_KeineBestErhalten, L_BestErhalten};
 		V_SchrankenWinkel : {0, 45, 90};
+		V_Schranke : {L_Existiere};
 		V_SMotor : {L_SMotorAus, L_SMotorSchliesse, L_SMotorOeffne};
+		V_Countdown : 0..100;
 		V_Zug : {L_Fahrend, L_Stehend};
 		V_Zugnotbremse : {L_NotbremseAus, L_NotbremseEin};
 MODULE _P_Hodometer(v)
 	INIT
-		(v.V_Hodometer = L_Calc) & (TRUE)
+		(v.V_Hodometer = L_Calc) & (((v.V_ReportedPosition = v.V_Position) & (v.V_ReportedSpeed = v.V_Geschwindigkeit)))
 	TRANS
 		 ( v.V_Hodometer = L_Calc & next(v.V_Hodometer) = L_Calc & TRUE & (next(v.V_ReportedPosition) = v.V_Position & next(v.V_ReportedSpeed) = v.V_Geschwindigkeit));
 MODULE _P_KommEinheitUebergang(v)
@@ -26,59 +29,77 @@ MODULE _P_KommEinheitUebergang(v)
 		(v.V_KommEinheitUebergang = L_WarteAufAnfrage) & (TRUE)
 	TRANS
 		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & (v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_SAnschlagssensor = L_AnschlagZu) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Oeffne & (v.V_SUeberfahrtSensor = L_UeberfahrtZu) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Oeffne & ((v.V_SUeberfahrtSensor = L_UeberfahrtZu) | (v.V_Timer = L_TimerTriggered)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_KanalZuUeb = L_BitteUmBest) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
-		 ( v.V_KommEinheitUebergang = L_Oeffne & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & TRUE & (next(v.V_KanalZuZug) = L_Nil))  |
 		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & !(v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & !(v.V_SAnschlagssensor = L_AnschlagZu) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (!(v.V_SUeberfahrtSensor = L_UeberfahrtZu) & !(v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug));
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & !(v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (!((v.V_SUeberfahrtSensor = L_UeberfahrtZu) | (v.V_Timer = L_TimerTriggered)) & !(v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Oeffne & next(v.V_KommEinheitUebergang) = L_Oeffne & TRUE & (next(v.V_KanalZuZug) = v.V_KanalZuZug));
 MODULE _P_KommEinheitZug(v)
 	INIT
 		(v.V_KommEinheitZug = L_Idle) & (TRUE)
 	TRANS
-		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & (v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * 5) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = L_BitteSichern))  |
-		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_WarteAufBest & (v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * 5) * v.V_ReportedSpeed))) & (next(v.V_KanalZuUeb) = L_BitteUmBest))  |
+		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & ((v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (v.V_ReportedPosition < (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = L_BitteSichern))  |
+		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_WarteAufBest & (v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed))) & (next(v.V_KanalZuUeb) = L_BitteUmBest))  |
 		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_KeineBestErhalten & ((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
-		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_BestErhalten & (((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * 5) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))))) & (v.V_KanalZuZug = L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_BestErhalten & (((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))))) & (v.V_KanalZuZug = L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
 		 ( v.V_KommEinheitZug = L_KeineBestErhalten & next(v.V_KommEinheitZug) = L_Idle & (v.V_ReportedPosition >= 100) & (next(v.V_KanalZuUeb) = L_Nil))  |
 		 ( v.V_KommEinheitZug = L_BestErhalten & next(v.V_KommEinheitZug) = L_Idle & (v.V_ReportedPosition >= 100) & (next(v.V_KanalZuUeb) = L_Nil))  |
-		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & (!(v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * 5) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & !(v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * 5) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
-		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_WarteAufBest & (!((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & !(((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * 5) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))))) & (v.V_KanalZuZug = L_IstGesichert))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & (!((v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (v.V_ReportedPosition < (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)))) & !(v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_WarteAufBest & (!((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & !(((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))))) & (v.V_KanalZuZug = L_IstGesichert))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
 		 ( v.V_KommEinheitZug = L_KeineBestErhalten & next(v.V_KommEinheitZug) = L_KeineBestErhalten & !(v.V_ReportedPosition >= 100) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
 		 ( v.V_KommEinheitZug = L_BestErhalten & next(v.V_KommEinheitZug) = L_BestErhalten & !(v.V_ReportedPosition >= 100) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb));
 MODULE _P_SAnschlagssensor(v)
 	INIT
-		(v.V_SAnschlagssensor = L_AnschlagOffen) & (TRUE)
+		(v.V_SAnschlagssensor = L_SchrankeOben) & (TRUE)
 	TRANS
-		 ( v.V_SAnschlagssensor = L_AnschlagOffen & next(v.V_SAnschlagssensor) = L_AnschlagZu & (v.V_SchrankenWinkel = 0) & (TRUE))  |
-		 ( v.V_SAnschlagssensor = L_AnschlagZu & next(v.V_SAnschlagssensor) = L_AnschlagOffen & (v.V_SchrankenWinkel != 0) & (TRUE))  |
-		 ( v.V_SAnschlagssensor = L_AnschlagOffen & next(v.V_SAnschlagssensor) = L_AnschlagOffen & !(v.V_SchrankenWinkel = 0) & (TRUE))  |
-		 ( v.V_SAnschlagssensor = L_AnschlagZu & next(v.V_SAnschlagssensor) = L_AnschlagZu & !(v.V_SchrankenWinkel != 0) & (TRUE));
+		 ( v.V_SAnschlagssensor = L_SchrankeUnten & next(v.V_SAnschlagssensor) = L_KeinKontakt & (v.V_SchrankenWinkel != 0) & (TRUE))  |
+		 ( v.V_SAnschlagssensor = L_SchrankeOben & next(v.V_SAnschlagssensor) = L_KeinKontakt & (v.V_SchrankenWinkel != 90) & (TRUE))  |
+		 ( v.V_SAnschlagssensor = L_KeinKontakt & next(v.V_SAnschlagssensor) = L_SchrankeOben & (v.V_SchrankenWinkel = 90) & (TRUE))  |
+		 ( v.V_SAnschlagssensor = L_KeinKontakt & next(v.V_SAnschlagssensor) = L_SchrankeUnten & (v.V_SchrankenWinkel = 0) & (TRUE))  |
+		 ( v.V_SAnschlagssensor = L_SchrankeUnten & next(v.V_SAnschlagssensor) = L_SchrankeUnten & !(v.V_SchrankenWinkel != 0) & (TRUE))  |
+		 ( v.V_SAnschlagssensor = L_SchrankeOben & next(v.V_SAnschlagssensor) = L_SchrankeOben & !(v.V_SchrankenWinkel != 90) & (TRUE))  |
+		 ( v.V_SAnschlagssensor = L_KeinKontakt & next(v.V_SAnschlagssensor) = L_KeinKontakt & (!(v.V_SchrankenWinkel = 90) & !(v.V_SchrankenWinkel = 0)) & (TRUE));
+MODULE _P_Schranke(v)
+	INIT
+		(v.V_Schranke = L_Existiere) & ((v.V_SchrankenWinkel = 90))
+	TRANS
+		 ( v.V_Schranke = L_Existiere & next(v.V_Schranke) = L_Existiere & TRUE & (TRUE));
 MODULE _P_SMotor(v)
 	INIT
 		(v.V_SMotor = L_SMotorAus) & (TRUE)
 	TRANS
-		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorSchliesse & ((v.V_SAnschlagssensor = L_AnschlagOffen) & (v.V_KommEinheitUebergang = L_Sichere)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
+		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorSchliesse & ((v.V_SAnschlagssensor != L_SchrankeUnten) & (v.V_KommEinheitUebergang = L_Sichere)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
 		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorOeffne & (v.V_KommEinheitUebergang = L_Oeffne) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorAus & (v.V_SAnschlagssensor = L_AnschlagZu) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & ((v.V_SAnschlagssensor = L_AnschlagOffen) & (v.V_SchrankenWinkel != 0)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel - 45)))  |
-		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorAus & ((v.V_SAnschlagssensor = L_AnschlagOffen) & (v.V_SchrankenWinkel = 90)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & ((v.V_SchrankenWinkel != 90) & (v.V_SchrankenWinkel != 90)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel + 45)))  |
-		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorAus & (!((v.V_SAnschlagssensor = L_AnschlagOffen) & (v.V_KommEinheitUebergang = L_Sichere)) & !(v.V_KommEinheitUebergang = L_Oeffne)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & (!(v.V_SAnschlagssensor = L_AnschlagZu) & !((v.V_SAnschlagssensor = L_AnschlagOffen) & (v.V_SchrankenWinkel != 0))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & (!((v.V_SAnschlagssensor = L_AnschlagOffen) & (v.V_SchrankenWinkel = 90)) & !((v.V_SchrankenWinkel != 90) & (v.V_SchrankenWinkel != 90))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel));
+		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorAus & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
+		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & ((v.V_SAnschlagssensor != L_SchrankeUnten) & (v.V_SchrankenWinkel != 0)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel - 45)))  |
+		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorAus & (v.V_SAnschlagssensor = L_SchrankeOben) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
+		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & ((v.V_SAnschlagssensor != L_SchrankeOben) & (v.V_SchrankenWinkel != 90)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel + 45)))  |
+		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorAus & (!((v.V_SAnschlagssensor != L_SchrankeUnten) & (v.V_KommEinheitUebergang = L_Sichere)) & !(v.V_KommEinheitUebergang = L_Oeffne)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
+		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & (!(v.V_SAnschlagssensor = L_SchrankeUnten) & !((v.V_SAnschlagssensor != L_SchrankeUnten) & (v.V_SchrankenWinkel != 0))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
+		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & (!(v.V_SAnschlagssensor = L_SchrankeOben) & !((v.V_SAnschlagssensor != L_SchrankeOben) & (v.V_SchrankenWinkel != 90))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel));
 MODULE _P_SUeberfahrtSensor(v)
 	INIT
 		(v.V_SUeberfahrtSensor = L_UeberfahrtOffen) & (TRUE)
 	TRANS
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (v.V_ReportedPosition >= 100) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & (v.V_ReportedPosition <= 100) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & !(v.V_ReportedPosition >= 100) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & !(v.V_ReportedPosition <= 100) & (TRUE));
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (v.V_Position >= 100) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & (v.V_Position <= 100) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & !(v.V_Position >= 100) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & !(v.V_Position <= 100) & (TRUE));
+MODULE _P_Timer(v)
+	INIT
+		(v.V_Timer = L_TimerIdle) & ((v.V_Countdown = 100))
+	TRANS
+		 ( v.V_Timer = L_TimerIdle & next(v.V_Timer) = L_TimerCounting & (v.V_KommEinheitUebergang = L_Gesichert) & (next(v.V_Countdown) = v.V_Countdown))  |
+		 ( v.V_Timer = L_TimerCounting & next(v.V_Timer) = L_TimerCounting & (v.V_Countdown > 0) & (next(v.V_Countdown) = (v.V_Countdown - 1)))  |
+		 ( v.V_Timer = L_TimerCounting & next(v.V_Timer) = L_TimerTriggered & (v.V_Countdown = 0) & (next(v.V_Countdown) = v.V_Countdown))  |
+		 ( v.V_Timer = L_TimerIdle & next(v.V_Timer) = L_TimerIdle & !(v.V_KommEinheitUebergang = L_Gesichert) & (next(v.V_Countdown) = v.V_Countdown))  |
+		 ( v.V_Timer = L_TimerCounting & next(v.V_Timer) = L_TimerCounting & (!(v.V_Countdown > 0) & !(v.V_Countdown = 0)) & (next(v.V_Countdown) = v.V_Countdown))  |
+		 ( v.V_Timer = L_TimerTriggered & next(v.V_Timer) = L_TimerTriggered & TRUE & (next(v.V_Countdown) = v.V_Countdown));
 MODULE _P_Zug(v)
 	INIT
-		(v.V_Zug = L_Fahrend) & (TRUE)
+		(v.V_Zug = L_Fahrend) & (((v.V_Position = 0) & (v.V_Geschwindigkeit = 2)))
 	TRANS
 		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Fahrend & ((v.V_Geschwindigkeit > 0) & ((v.V_Position + v.V_Geschwindigkeit) <= 100)) & (next(v.V_Position) = (v.V_Position + v.V_Geschwindigkeit)))  |
 		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Stehend & (v.V_Geschwindigkeit = 0) & (next(v.V_Position) = v.V_Position))  |
@@ -100,9 +121,15 @@ MODULE main
 		p_KommEinheitUebergang : _P_KommEinheitUebergang(v);
 		p_KommEinheitZug : _P_KommEinheitZug(v);
 		p_SAnschlagssensor : _P_SAnschlagssensor(v);
+		p_Schranke : _P_Schranke(v);
 		p_SMotor : _P_SMotor(v);
 		p_SUeberfahrtSensor : _P_SUeberfahrtSensor(v);
+		p_Timer : _P_Timer(v);
 		p_Zug : _P_Zug(v);
 		p_Zugnotbremse : _P_Zugnotbremse(v);
 
 
+
+
+LTLSPEC F v.V_SUeberfahrtSensor = L_UeberfahrtZu;
+LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SchrankenWinkel = 0);
