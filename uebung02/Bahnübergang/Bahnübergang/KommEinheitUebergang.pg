@@ -3,7 +3,7 @@
   <states>
     <initialNode Id="9b55ced1-b88d-4e39-9ac6-fe51ef205863" name="InitialNode1">
       <successors>
-        <transition Id="5c39b987-274b-4eeb-9632-2bdaf24b0d0f">
+        <transition Id="5c39b987-274b-4eeb-9632-2bdaf24b0d0f" guard="KanalZuZug == Nil" label="KanalZuZug == Nil">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/WarteAufAnfrage" />
         </transition>
       </successors>

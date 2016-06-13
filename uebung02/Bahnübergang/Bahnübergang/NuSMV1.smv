@@ -3,8 +3,8 @@ MODULE _VARS
 	VAR
 		V_Hodometer : {L_Calc};
 		V_ReportedPosition : 0..120;
-		V_ReportedSpeed : 0..10;
-		V_Geschwindigkeit : 0..10;
+		V_ReportedSpeed : 0..5;
+		V_Geschwindigkeit : 0..5;
 		V_Position : 0..120;
 		V_KommEinheitUebergang : {L_WarteAufAnfrage, L_Sichere, L_Gesichert, L_Oeffne};
 		V_KanalZuZug : {L_IstGesichert, L_Nil};
@@ -26,7 +26,7 @@ MODULE _P_Hodometer(v)
 		 ( v.V_Hodometer = L_Calc & next(v.V_Hodometer) = L_Calc & TRUE & (next(v.V_ReportedPosition) = v.V_Position & next(v.V_ReportedSpeed) = v.V_Geschwindigkeit));
 MODULE _P_KommEinheitUebergang(v)
 	INIT
-		(v.V_KommEinheitUebergang = L_WarteAufAnfrage) & (TRUE)
+		(v.V_KommEinheitUebergang = L_WarteAufAnfrage) & ((v.V_KanalZuZug = L_Nil))
 	TRANS
 		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & (v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
@@ -38,14 +38,14 @@ MODULE _P_KommEinheitUebergang(v)
 		 ( v.V_KommEinheitUebergang = L_Oeffne & next(v.V_KommEinheitUebergang) = L_Oeffne & TRUE & (next(v.V_KanalZuZug) = v.V_KanalZuZug));
 MODULE _P_KommEinheitZug(v)
 	INIT
-		(v.V_KommEinheitZug = L_Idle) & (TRUE)
+		(v.V_KommEinheitZug = L_Idle) & ((v.V_KanalZuUeb = L_Nil))
 	TRANS
-		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & ((v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (v.V_ReportedPosition < (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = L_BitteSichern))  |
-		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_WarteAufBest & (v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed))) & (next(v.V_KanalZuUeb) = L_BitteUmBest))  |
-		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_KeineBestErhalten & ((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
-		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_BestErhalten & (((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))))) & (v.V_KanalZuZug = L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
-		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & (!((v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (v.V_ReportedPosition < (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)))) & !(v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
-		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_WarteAufBest & (!((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & !(((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))) - ((2 * (5 + 12)) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (2 * 10))))) & (v.V_KanalZuZug = L_IstGesichert))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & ((v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (v.V_ReportedPosition < (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = L_BitteSichern))  |
+		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_WarteAufBest & (v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed))) & (next(v.V_KanalZuUeb) = L_BitteUmBest))  |
+		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_KeineBestErhalten & ((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_BestErhalten & (((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))))) & (v.V_KanalZuZug = L_IstGesichert)) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_Idle & next(v.V_KommEinheitZug) = L_Idle & (!((v.V_ReportedPosition >= ((((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed)) - (v.V_ReportedSpeed * (5 + v.V_ReportedSpeed)))) & (v.V_ReportedPosition < (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed)))) & !(v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed)))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
+		 ( v.V_KommEinheitZug = L_WarteAufBest & next(v.V_KommEinheitZug) = L_WarteAufBest & (!((v.V_ReportedPosition >= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10)))) & (v.V_KanalZuZug != L_IstGesichert)) & !(((v.V_ReportedPosition >= (((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))) - ((2 * (5 + 2)) * v.V_ReportedSpeed))) & (v.V_ReportedPosition <= ((95 - 5) - ((v.V_ReportedSpeed * v.V_ReportedSpeed) / (1 * 10))))) & (v.V_KanalZuZug = L_IstGesichert))) & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
 		 ( v.V_KommEinheitZug = L_KeineBestErhalten & next(v.V_KommEinheitZug) = L_KeineBestErhalten & TRUE & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb))  |
 		 ( v.V_KommEinheitZug = L_BestErhalten & next(v.V_KommEinheitZug) = L_BestErhalten & TRUE & (next(v.V_KanalZuUeb) = v.V_KanalZuUeb));
 MODULE _P_SAnschlagssensor(v)
@@ -97,7 +97,7 @@ MODULE _P_Timer(v)
 		 ( v.V_Timer = L_TimerTriggered & next(v.V_Timer) = L_TimerTriggered & TRUE & (next(v.V_Countdown) = v.V_Countdown));
 MODULE _P_Zug(v)
 	INIT
-		(v.V_Zug = L_Fahrend) & (((v.V_Position = 0) & (v.V_Geschwindigkeit = 2)))
+		(v.V_Zug = L_Fahrend) & (((v.V_Position = 0) & (v.V_Geschwindigkeit > 0)))
 	TRANS
 		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Fahrend & ((v.V_Geschwindigkeit > 0) & ((v.V_Position + v.V_Geschwindigkeit) <= 120)) & (next(v.V_Position) = (v.V_Position + v.V_Geschwindigkeit)))  |
 		 ( v.V_Zug = L_Fahrend & next(v.V_Zug) = L_Stehend & (v.V_Geschwindigkeit = 0) & (next(v.V_Position) = v.V_Position))  |
@@ -109,9 +109,9 @@ MODULE _P_Zugnotbremse(v)
 		(v.V_Zugnotbremse = L_NotbremseAus) & (TRUE)
 	TRANS
 		 ( v.V_Zugnotbremse = L_NotbremseAus & next(v.V_Zugnotbremse) = L_NotbremseEin & (v.V_KommEinheitZug = L_KeineBestErhalten) & (next(v.V_Geschwindigkeit) = v.V_Geschwindigkeit))  |
-		 ( v.V_Zugnotbremse = L_NotbremseEin & next(v.V_Zugnotbremse) = L_NotbremseAus & (v.V_ReportedSpeed = 0) & (next(v.V_Geschwindigkeit) = v.V_Geschwindigkeit))  |
-		 ( v.V_Zugnotbremse = L_NotbremseEin & next(v.V_Zugnotbremse) = L_NotbremseEin & TRUE & (next(v.V_Geschwindigkeit) = 0))  |
-		 ( v.V_Zugnotbremse = L_NotbremseAus & next(v.V_Zugnotbremse) = L_NotbremseAus & !(v.V_KommEinheitZug = L_KeineBestErhalten) & (next(v.V_Geschwindigkeit) = v.V_Geschwindigkeit));
+		 ( v.V_Zugnotbremse = L_NotbremseEin & next(v.V_Zugnotbremse) = L_NotbremseEin & (v.V_Geschwindigkeit > 0) & (next(v.V_Geschwindigkeit) = (v.V_Geschwindigkeit - 1)))  |
+		 ( v.V_Zugnotbremse = L_NotbremseAus & next(v.V_Zugnotbremse) = L_NotbremseAus & !(v.V_KommEinheitZug = L_KeineBestErhalten) & (next(v.V_Geschwindigkeit) = v.V_Geschwindigkeit))  |
+		 ( v.V_Zugnotbremse = L_NotbremseEin & next(v.V_Zugnotbremse) = L_NotbremseEin & !(v.V_Geschwindigkeit > 0) & (next(v.V_Geschwindigkeit) = v.V_Geschwindigkeit));
 MODULE main
 	VAR
 		v : _VARS();
@@ -138,3 +138,5 @@ LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SAnschlagssensor = L_Schrank
 -- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
 LTLSPEC F v.V_Position > 100;
 
+-- Der Zug ist niemals auf einem ungesichtern Bahn?bergang
+LTLSPEC G (v.V_Position >= 95 & v.V_Position < 100 -> v.V_SAnschlagssensor = L_SchrankeUnten);

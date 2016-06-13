@@ -13,3 +13,5 @@ LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SAnschlagssensor = L_Schrank
 -- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
 LTLSPEC F v.V_Position > 100;
 
+-- Der Zug ist niemals auf einem ungesichtern Bahnübergang
+LTLSPEC G (v.V_Position >= 95 & v.V_Position < 100 -> v.V_SAnschlagssensor = L_SchrankeUnten);

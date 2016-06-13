@@ -3,7 +3,7 @@
   <states>
     <initialNode Id="614e072f-ba26-424d-8dc9-f8aae5083839" name="InitialNode1">
       <successors>
-        <transition Id="9b609bf0-0fb0-437a-87c2-4bdb24fe2779">
+        <transition Id="9b609bf0-0fb0-437a-87c2-4bdb24fe2779" guard="KanalZuUeb == Nil" label="KanalZuUeb == Nil">
           <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/Idle" />
         </transition>
       </successors>
@@ -41,10 +41,10 @@
       <macro Id="8bfbf173-d416-49de-b196-8f59ccec0eb5" name="EiP" body="AP - ReportedSpeed * (z + ReportedSpeed)" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="d828ff8f-beda-41d7-8622-e7e0c963014c">
-      <macro Id="8d18e25b-6571-4aba-83ce-7656abbd1491" name="AP" body="BEP - 2 * (z + 12) * ReportedSpeed" />
+      <macro Id="8d18e25b-6571-4aba-83ce-7656abbd1491" name="AP" body="BEP - 2 * (z + 2) * ReportedSpeed" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="04690e77-a176-43f9-b850-06d96dbcef89">
-      <macro Id="9a5bb414-a873-4cb5-a0b3-8ca8c9d84f7a" name="BEP" body="GP - z -  ReportedSpeed * ReportedSpeed / ( 2 * 10)" />
+      <macro Id="9a5bb414-a873-4cb5-a0b3-8ca8c9d84f7a" name="BEP" body="GP - z -  ReportedSpeed * ReportedSpeed / ( 1 * 10)" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="ce059c21-2906-4eb0-a5ee-c920a877879b">
       <macro Id="57fb7089-77dd-4051-a710-066258e1c477" name="GP" body="95" />
@@ -57,14 +57,14 @@
     </programGraphHasMacros>
   </macros>
   <importedVariables>
-    <programGraphHasImportedVariables Id="f8a05c38-950e-426d-950f-c113560bf44d">
-      <importedVariable Id="16048ed3-6fe4-4135-ba34-ddd4862359e2" name="Hodometer.ReportedSpeed" range="0..10" />
-    </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="f24a65ba-9b5f-4e89-9f79-84d83c291465">
       <importedVariable Id="904c1560-e541-48c4-ba78-27695c27ea53" name="Hodometer.ReportedPosition" range="0..120" />
     </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="83b3af70-bda5-4311-a1c8-38f1504fbf24">
       <importedVariable Id="28b5afa5-b66e-40de-8291-a85990d3a553" name="KommEinheitUebergang.KanalZuZug" range="IstGesichert, Nil" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="270f1a54-8ee4-4514-926b-ffac545e9239">
+      <importedVariable Id="2355f509-e1b2-4863-91c9-67091f31caa1" name="Hodometer.ReportedSpeed" range="0..5" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

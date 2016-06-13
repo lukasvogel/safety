@@ -11,6 +11,9 @@
     <transitionConnector Id="2b5fece9-c13a-41bc-b95c-d5e5c2f205ca" edgePoints="[(0.5625 : 1.125); (0.5625 : 2.625); (2.5 : 2.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="9b609bf0-0fb0-437a-87c2-4bdb24fe2779" />
       <relativeChildShapes />
+      <moveableDecoratorHostShapes>
+        <moveableDecoratorHostShape manuallySized="true" manuallyPlaced="true" absoluteBounds="0.375, 2.8125, 1.1345621347427368, 0.181884765625" shapeFieldName="Label" />
+      </moveableDecoratorHostShapes>
       <nodes>
         <initialStateShapeMoniker Id="16c4a155-426c-4ed9-8a58-0ae6fbd15c6b" />
         <stateShapeMoniker Id="f118603b-39ba-46be-b513-9cfff179ec0b" />

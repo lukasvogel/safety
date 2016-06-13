@@ -3,7 +3,7 @@
   <states>
     <initialNode Id="a6c2aae3-f704-46ea-bbcb-2dca9c618f9d" name="InitialNode1">
       <successors>
-        <transition Id="3eaa2fcd-fd2b-4bc1-b64e-aea8ea6af14a" guard="Position == 0 &amp;&amp; Geschwindigkeit == 2" label="Position == 0 &amp;&amp; Geschwindigkeit == 2">
+        <transition Id="3eaa2fcd-fd2b-4bc1-b64e-aea8ea6af14a" guard="Position == 0 &amp;&amp; Geschwindigkeit &gt; 0" label="Position == 0 &amp;&amp; Geschwindigkeit &gt; 0">
           <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Fahrend" />
         </transition>
       </successors>
@@ -28,7 +28,7 @@
   </states>
   <variables>
     <programGraphHasVariables Id="cca87dc0-d44c-4b5b-b231-a6b5def2c2f4">
-      <variable Id="ec47cf99-afcb-41d7-8592-d76fc3e498e7" name="Geschwindigkeit" range="0..10" />
+      <variable Id="ec47cf99-afcb-41d7-8592-d76fc3e498e7" name="Geschwindigkeit" range="0..5" />
     </programGraphHasVariables>
     <programGraphHasVariables Id="a1dc85c9-500a-4f32-8a8a-628ed56b6d8e">
       <variable Id="fa1646bd-fbdb-4b4f-8a1d-94ba3f2d6818" name="Position" range="0..120" />
