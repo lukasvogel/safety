@@ -10,11 +10,14 @@
     </state>
     <state Id="bcd86a33-1c00-4121-8ddd-aeec8a1a6919" name="TimerCounting">
       <successors>
-        <transition Id="2356b1c3-0bc4-430c-a253-ddc0b6847422" action="Countdown := Countdown -1" label="// Countdown := Countdown -1" precondition="Countdown &gt; 0">
+        <transition Id="2356b1c3-0bc4-430c-a253-ddc0b6847422" guard="KommEinheitUebergang == Gesichert" action="Countdown := Countdown -1" label="KommEinheitUebergang == Gesichert // Countdown := Countdown -1" precondition="Countdown &gt; 0">
           <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerCounting" />
         </transition>
         <transition Id="1c9cabcd-e45e-4d4f-84d3-30e930668da5" guard="Countdown == 0" label="Countdown == 0">
           <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerTriggered" />
+        </transition>
+        <transition Id="10abe30f-eb64-4ca2-8cb7-d361592ebbca" guard="KommEinheitUebergang == Oeffne" action="Countdown := 100" label="KommEinheitUebergang == Oeffne // Countdown := 100" precondition="true">
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerIdle" />
         </transition>
       </successors>
     </state>

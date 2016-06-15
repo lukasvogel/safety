@@ -13,7 +13,7 @@
         <transition Id="25f22f3c-314d-41aa-b742-15f22270d519" guard="SAnschlagssensor != SchrankeUnten &amp;&amp; KommEinheitUebergang == Sichere" label="SAnschlagssensor != SchrankeUnten &amp;&amp; KommEinheitUebergang == Sichere">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorSchliesse" />
         </transition>
-        <transition Id="76073bea-3497-4bb4-8767-bb81344fde1a" guard=" KommEinheitUebergang == Oeffne " label=" KommEinheitUebergang == Oeffne ">
+        <transition Id="76073bea-3497-4bb4-8767-bb81344fde1a" guard=" KommEinheitUebergang == Oeffne &amp;&amp; SAnschlagssensor != SchrankeOben" label=" KommEinheitUebergang == Oeffne &amp;&amp; SAnschlagssensor != SchrankeOben">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorOeffne" />
         </transition>
       </successors>

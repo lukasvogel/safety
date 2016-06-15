@@ -50,7 +50,7 @@
       <macro Id="57fb7089-77dd-4051-a710-066258e1c477" name="GP" body="95" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="96c72440-ed39-4207-b623-38d9681a8f81">
-      <macro Id="aedc46de-579d-47b2-9e90-76c5b6edd12f" name="z" body="5" />
+      <macro Id="aedc46de-579d-47b2-9e90-76c5b6edd12f" name="z" body="1" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="98e157d7-9bd4-4023-8355-9b7219ef053f">
       <macro Id="7bd974b6-de31-4bab-ae55-630ea519ad2f" name="SP" body="100" />
