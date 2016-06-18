@@ -259,3 +259,7 @@ LTLSPEC (G noFaults) -> (F v.V_Position > SP);
 LTLSPEC (G noFaults) -> (G (v.V_Zugnotbremse = L_NotbremseEin -> (F v.V_Geschwindigkeit = 0)));
 
 
+-- ****AD?QUATHEIT DER FEHLER****
+
+-- FailureBreaks
+-- Es gibt einen Trace indem der Zug nicht anh?lt obwohl die Notbremse ausl?st
