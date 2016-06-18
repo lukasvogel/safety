@@ -11,16 +11,7 @@
         </transition>
       </successors>
     </state>
-    <state Id="0482f3e6-19bd-4680-944e-6aadd633a589" name="FaultSecuredYes">
-      <successors>
-        <transition Id="229dee52-1965-4921-b8b5-1af6110107dc">
-          <stateMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/FaultSecuredNo" />
-        </transition>
-        <transition Id="7af6bd35-d944-43f5-b15e-7535e27bd61c">
-          <stateMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/FaultSecuredYes" />
-        </transition>
-      </successors>
-    </state>
+    <state Id="0482f3e6-19bd-4680-944e-6aadd633a589" name="FaultSecuredYes" />
     <initialNode Id="64a17746-1aeb-405e-91e3-3511a61a706f" name="InitialNode1">
       <successors>
         <transition Id="26439bef-b044-404c-8a5e-27c464538cb4">
