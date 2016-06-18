@@ -10,8 +10,11 @@
     </initialNode>
     <state Id="da767dc0-2f1e-40b9-8d07-6683838d50c7" name="WarteAufAnfrage">
       <successors>
-        <transition Id="9075e04b-da8e-46f2-8eb8-4b3d40c4a1c9" guard="KanalZuUeb == BitteSichern" label="KanalZuUeb == BitteSichern">
+        <transition Id="9075e04b-da8e-46f2-8eb8-4b3d40c4a1c9" guard="FaultSecured == FaultSecuredNo &amp;&amp;KanalZuUeb == BitteSichern" label="FaultSecured == FaultSecuredNo &amp;&amp;KanalZuUeb == BitteSichern">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Sichere" />
+        </transition>
+        <transition Id="3aba13ce-964a-4612-8380-72613f983de5" guard="FaultSecured != FaultSecuredNo &amp;&amp; KanalZuUeb == BitteSichern" label="FaultSecured != FaultSecuredNo &amp;&amp; KanalZuUeb == BitteSichern">
+          <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Gesichert" />
         </transition>
       </successors>
     </state>
@@ -51,6 +54,9 @@
     </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="8b362351-9ae5-44db-b6cc-9dbdd25e5df9">
       <importedVariable Id="0d2f4564-a04d-4fc7-af73-1786b1f3a360" name="Timer" range="TimerIdle, TimerCounting, TimerTriggered" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="6261eeac-47fc-4c8b-b143-fb6b06fdfd3a">
+      <importedVariable Id="6ad69e0d-6121-47b8-af84-2a64bcfc648b" name="FaultSecured" range="FaultSecuredNo, FaultSecuredYes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="071db161-9847-486a-8692-a26115b64c6a" name="FailureSMotor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <state Id="fa346415-c30b-47c5-b673-1c26ee9e901f" name="FailureSMotorNo">
+      <successors>
+        <transition Id="78aa724f-776d-42d3-ad34-482455d30c3f">
+          <stateMoniker name="/071db161-9847-486a-8692-a26115b64c6a/FailureSMotorYes" />
+        </transition>
+        <transition Id="b51aa86f-2b1b-485b-972b-610b7ce98e51">
+          <stateMoniker name="/071db161-9847-486a-8692-a26115b64c6a/FailureSMotorNo" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="60c774e9-6979-4c22-904b-364b16d99690" name="FailureSMotorYes" />
+    <initialNode Id="27c43fe9-deda-4d42-8a24-2081c6a22e3c" name="InitialNode1">
+      <successors>
+        <transition Id="e7eaff9c-d0fe-4be0-9cb3-9c880aa44ef4">
+          <stateMoniker name="/071db161-9847-486a-8692-a26115b64c6a/FailureSMotorNo" />
+        </transition>
+      </successors>
+    </initialNode>
+  </states>
+</programGraph>

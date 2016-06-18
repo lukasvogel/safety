@@ -10,10 +10,10 @@
     </initialNode>
     <state Id="10872cb9-eedc-4f24-8fef-8684c01d2f00" name="SMotorAus">
       <successors>
-        <transition Id="25f22f3c-314d-41aa-b742-15f22270d519" guard="SAnschlagssensor != SchrankeUnten &amp;&amp; KommEinheitUebergang == Sichere" label="SAnschlagssensor != SchrankeUnten &amp;&amp; KommEinheitUebergang == Sichere">
+        <transition Id="25f22f3c-314d-41aa-b742-15f22270d519" guard="FailureSMotor == FailureSMotorNo &amp;&amp; SAnschlagssensor != SchrankeUnten &amp;&amp; KommEinheitUebergang == Sichere" label="FailureSMotor == FailureSMotorNo &amp;&amp; SAnschlagssensor != SchrankeUnten &amp;&amp; KommEinheitUebergang == Sichere">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorSchliesse" />
         </transition>
-        <transition Id="76073bea-3497-4bb4-8767-bb81344fde1a" guard=" KommEinheitUebergang == Oeffne &amp;&amp; SAnschlagssensor != SchrankeOben" label=" KommEinheitUebergang == Oeffne &amp;&amp; SAnschlagssensor != SchrankeOben">
+        <transition Id="76073bea-3497-4bb4-8767-bb81344fde1a" guard=" FailureSMotor == FailureSMotorNo &amp;&amp; KommEinheitUebergang == Oeffne &amp;&amp; SAnschlagssensor != SchrankeOben" label=" FailureSMotor == FailureSMotorNo &amp;&amp; KommEinheitUebergang == Oeffne &amp;&amp; SAnschlagssensor != SchrankeOben">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorOeffne" />
         </transition>
       </successors>
@@ -48,6 +48,9 @@
     </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="7df1dcd3-b28c-4f17-bcd1-3e0f687c9459">
       <importedVariable Id="977b967d-1aae-48bb-8c98-f3f4032656e3" name="SAnschlagssensor" range="SchrankeUnten, SchrankeOben, KeinKontakt" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="b8dcd29e-559e-4198-88e4-183a4d6c9aff">
+      <importedVariable Id="316df18b-3c0b-44f6-bada-69b04be969f5" name="FailureSMotor" range="FailureSMotorNo, FailureSMotorYes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

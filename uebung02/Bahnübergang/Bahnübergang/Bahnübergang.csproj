@@ -61,6 +61,30 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="FailureBrakes.pg" />
+    <None Include="FailureBrakes.pg.diagram">
+      <DependentUpon>FailureBrakes.pg</DependentUpon>
+    </None>
+    <None Include="FailureSMotor.pg" />
+    <None Include="FailureSMotor.pg.diagram">
+      <DependentUpon>FailureSMotor.pg</DependentUpon>
+    </None>
+    <None Include="FaultHodometer.pg" />
+    <None Include="FaultHodometer.pg.diagram">
+      <DependentUpon>FaultHodometer.pg</DependentUpon>
+    </None>
+    <None Include="FaultSecured.pg" />
+    <None Include="FaultSecured.pg.diagram">
+      <DependentUpon>FaultSecured.pg</DependentUpon>
+    </None>
+    <None Include="FaultSensor.pg" />
+    <None Include="FaultSensor.pg.diagram">
+      <DependentUpon>FaultSensor.pg</DependentUpon>
+    </None>
+    <None Include="FaultTimer.pg" />
+    <None Include="FaultTimer.pg.diagram">
+      <DependentUpon>FaultTimer.pg</DependentUpon>
+    </None>
     <None Include="Hodometer.pg">
       <SubType>Designer</SubType>
     </None>

@@ -19,6 +19,9 @@
         <transition Id="10abe30f-eb64-4ca2-8cb7-d361592ebbca" guard="KommEinheitUebergang == Oeffne" action="Countdown := 100" label="KommEinheitUebergang == Oeffne // Countdown := 100" precondition="true">
           <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerIdle" />
         </transition>
+        <transition Id="d95a733d-a546-4e3a-a15f-f3d86c0b7815" guard="FaultTimer != FaultTimerNo" label="FaultTimer != FaultTimerNo">
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerTriggered" />
+        </transition>
       </successors>
     </state>
     <state Id="e5dee829-e8b8-4da3-82e1-186e29ee3c08" name="TimerTriggered" />
@@ -38,6 +41,9 @@
   <importedVariables>
     <programGraphHasImportedVariables Id="dcb7201d-2844-4b99-b772-39c9e2a8836e">
       <importedVariable Id="44171b0f-761b-4f0a-b253-565d4d3dcc68" name="KommEinheitUebergang" range="WarteAufAnfrage, Sichere, Gesichert, Oeffne" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="2384e205-5ba4-45ac-9cb5-35584beeae3a">
+      <importedVariable Id="98007efc-2cbf-4bc5-9297-859f6c12c65b" name="FaultTimer" range="FaultTimerNo, FaultTimerYes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

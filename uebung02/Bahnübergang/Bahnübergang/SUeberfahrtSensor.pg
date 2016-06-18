@@ -13,12 +13,18 @@
         <transition Id="7c748f1d-e856-4673-90dd-8db29a00d6d6" guard="Position &gt;= SP &amp;&amp; Position &lt;= SP + 10" label="Position &gt;= SP &amp;&amp; Position &lt;= SP + 10">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtZu" />
         </transition>
+        <transition Id="9019b7d9-aea2-419d-bc09-e92b5c4b6909" guard="FaultSensor != FaultSensorNo" label="FaultSensor != FaultSensorNo">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtZu" />
+        </transition>
       </successors>
     </state>
     <state Id="4ee37f71-dad1-4ca8-90d7-3e041b885537" name="UeberfahrtZu">
       <successors>
         <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="Position &lt; SP" label="Position &lt; SP">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtOffen" />
+        </transition>
+        <transition Id="c67e9285-cfc6-404f-8953-e5a87401a2bd" guard="FaultSensor != FaultSensorNo" label="FaultSensor != FaultSensorNo">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtZu" />
         </transition>
       </successors>
     </state>
@@ -31,6 +37,9 @@
   <importedVariables>
     <programGraphHasImportedVariables Id="83308648-31e5-407c-9c1e-89f2388de86d">
       <importedVariable Id="8a970c2a-434f-449c-b732-1ae989e9c905" name="Zug.Position" range="0..120" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="63822359-31d6-4466-8fb3-d59595bcc02e">
+      <importedVariable Id="07be9529-e46a-45f4-b6da-bcda51b8cf42" name="FaultSensor" range="FaultSensorNo, FaultSensorYes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

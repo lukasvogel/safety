@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="b338e4f7-53ee-451d-8b5d-7f06a59d3db9" name="FaultHodometer" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <state Id="9a80fdec-7976-444c-b16b-32abe14e9f7b" name="FaultHodometerNo">
+      <successors>
+        <transition Id="6c5ba446-2f8d-4094-9b9b-d57024d83a6a">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerYes" />
+        </transition>
+        <transition Id="b3499e16-e479-42ca-a8af-237d83a2faee">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerNo" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="2b7e210d-fbac-4edb-addd-80647603d135" name="FaultHodometerYes">
+      <successors>
+        <transition Id="77462085-57ce-454c-8e7f-50959785d173">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerNo" />
+        </transition>
+        <transition Id="45ea1335-28b0-459a-ba7b-0e8201286666">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerYes" />
+        </transition>
+      </successors>
+    </state>
+    <initialNode Id="08481dfb-153b-4601-bd60-57300bb1af5a" name="InitialNode1">
+      <successors>
+        <transition Id="7eb85fec-5369-41c6-91ac-8dc8ef77cab1">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerNo" />
+        </transition>
+      </successors>
+    </initialNode>
+  </states>
+</programGraph>

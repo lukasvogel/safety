@@ -17,7 +17,7 @@
     </state>
     <state Id="1370dfdc-efe6-43d5-807a-9d86ebea2459" name="NotbremseEin">
       <successors>
-        <transition Id="65244d6b-55ee-4f28-8420-45c2faccd671" action="Geschwindigkeit := Geschwindigkeit - 1" label="// Geschwindigkeit := Geschwindigkeit - 1" precondition="Geschwindigkeit &gt; 0">
+        <transition Id="65244d6b-55ee-4f28-8420-45c2faccd671" guard="FailureBrakes == FailureBrakesNo" action="Geschwindigkeit := Geschwindigkeit - 1" label="FailureBrakes == FailureBrakesNo // Geschwindigkeit := Geschwindigkeit - 1" precondition="Geschwindigkeit &gt; 0">
           <stateMoniker name="/4a06d72a-fd47-4660-a48b-08fd4f2e59f0/NotbremseEin" />
         </transition>
       </successors>
@@ -32,6 +32,9 @@
     </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="3a89d7a6-8357-419d-90af-97d11bf8c1c7">
       <importedVariable Id="da1ef622-141e-4fe4-95a9-a7e7d661a5c5" name="Zug.Geschwindigkeit" range="0..5" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="c207909d-f0a1-4f6a-9268-15c7f74bb35d">
+      <importedVariable Id="490c4418-ad97-4a12-94b4-99c34528588a" name="FailureBrakes" range="FailureBrakesNo, FailureBrakesYes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>
