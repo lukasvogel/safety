@@ -23,7 +23,7 @@
         <transition Id="5ce3709e-db49-47ca-8403-b5be68965372" guard="ReportedPosition &gt;= BEP &amp;&amp; KanalZuZug != IstGesichert" label="ReportedPosition &gt;= BEP &amp;&amp; KanalZuZug != IstGesichert">
           <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/KeineBestErhalten" />
         </transition>
-        <transition Id="0aa22167-17e8-489f-98b2-c7e904eb3cef" guard="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert" label="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert" precondition="true">
+        <transition Id="0aa22167-17e8-489f-98b2-c7e904eb3cef" guard="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert // KanalZuUeb := Nil" precondition="true">
           <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/BestErhalten" />
         </transition>
       </successors>
@@ -44,13 +44,13 @@
       <macro Id="8d18e25b-6571-4aba-83ce-7656abbd1491" name="AP" body="BEP - 2 * (z + 2) * ReportedSpeed" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="04690e77-a176-43f9-b850-06d96dbcef89">
-      <macro Id="9a5bb414-a873-4cb5-a0b3-8ca8c9d84f7a" name="BEP" body="GP - z -  ReportedSpeed * ReportedSpeed / ( 1 * 10)" />
+      <macro Id="9a5bb414-a873-4cb5-a0b3-8ca8c9d84f7a" name="BEP" body="GP - z -  (ReportedSpeed * ReportedSpeed) / ( 1 * 2* 10)" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="ce059c21-2906-4eb0-a5ee-c920a877879b">
       <macro Id="57fb7089-77dd-4051-a710-066258e1c477" name="GP" body="95" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="96c72440-ed39-4207-b623-38d9681a8f81">
-      <macro Id="aedc46de-579d-47b2-9e90-76c5b6edd12f" name="z" body="1" />
+      <macro Id="aedc46de-579d-47b2-9e90-76c5b6edd12f" name="z" body="2" />
     </programGraphHasMacros>
     <programGraphHasMacros Id="98e157d7-9bd4-4023-8355-9b7219ef053f">
       <macro Id="7bd974b6-de31-4bab-ae55-630ea519ad2f" name="SP" body="100" />

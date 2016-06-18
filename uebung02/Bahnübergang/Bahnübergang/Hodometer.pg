@@ -3,14 +3,14 @@
   <states>
     <initialNode Id="b3a83d8e-5a00-4d05-8dec-f0de4e86a99a" name="InitialNode1">
       <successors>
-        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12" guard="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit" label="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit">
+        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12" guard="ReportedPosition == Position + Geschwindigkeit &amp;&amp; ReportedSpeed == Geschwindigkeit" label="ReportedPosition == Position + Geschwindigkeit &amp;&amp; ReportedSpeed == Geschwindigkeit">
           <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
         </transition>
       </successors>
     </initialNode>
     <state Id="90091654-825b-4d18-9e88-811978f5825e" name="Calc">
       <successors>
-        <transition Id="b2c663e5-4924-48f6-b2a7-5be3f056e585" action="ReportedSpeed := Geschwindigkeit | ReportedPosition := Position" label="// ReportedSpeed := Geschwindigkeit | ReportedPosition := Position" precondition="true">
+        <transition Id="b2c663e5-4924-48f6-b2a7-5be3f056e585" action="ReportedSpeed := Geschwindigkeit | ReportedPosition := Position + Geschwindigkeit" label="// ReportedSpeed := Geschwindigkeit | ReportedPosition := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 120">
           <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
         </transition>
       </successors>
