@@ -4,13 +4,16 @@
 
 <#=  TransformToNuSMV() #>
 
--- Der Zug überfährt immer den Überfahrtsensor und ist davor nie stehen geblieben
-CTLSPEC A [ v.V_Geschwindigkeit > 0 U v.V_SUeberfahrtSensor = L_UeberfahrtZu];
-CTLSPEC A [ v.V_Geschwindigkeit > 0 U v.V_Position > 100];
+-- ****SOLLVERHALTEN****
 
--- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
-CTLSPEC AF v.V_Position > 100;
+-- WICHTIGSTE EIGENSCHAFT
 
+-- Der Zug ist niemals auf einem ungesichertem Bahnübergang
+CTLSPEC AG (v.V_Position >= 95 & v.V_Position < 100 -> v.V_SAnschlagssensor = L_SchrankeUnten);
+CTLSPEC AG (v.V_Position >= 95 & v.V_Position < 100 -> v.V_SchrankenWinkel = 0);
+
+
+-- EIGENSCHAFTEN ÜBERGANG
 
 -- Wenn der Übergang die Sicherungsnachricht erhält, ist er irgendwann auch gesichert
 LTLSPEC G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SAnschlagssensor = L_SchrankeUnten);
@@ -23,13 +26,6 @@ CTLSPEC AG (v.V_KommEinheitUebergang = L_Gesichert -> v.V_SchrankenWinkel = 0);
 -- Wenn die Schranke unten ist, ist der Übergang im nächsten(!) Schritt (wegen Verzögerung) gesichert
 -- oder er war schon gesichert und öffent sich wieder
 LTLSPEC G (v.V_SAnschlagssensor = L_SchrankeUnten -> X (v.V_KommEinheitUebergang = L_Gesichert | v.V_KommEinheitUebergang = L_Oeffne));
-
--- Der Zug ist niemals auf einem ungesichertem Bahnübergang
-CTLSPEC AG (v.V_Position >= 95 & v.V_Position < 100 -> v.V_SAnschlagssensor = L_SchrankeUnten);
-CTLSPEC AG (v.V_Position >= 95 & v.V_Position < 100 -> v.V_SchrankenWinkel = 0);
-
--- Wenn der Zug bremst, kommt er irgendwann auch zum Stehen
-LTLSPEC G (v.V_Zugnotbremse = L_NotbremseEin -> (F v.V_Geschwindigkeit = 0));
 
 -- Der Zug erhält die Sicherungsbestätigung, wenn er sie denn erhält, zumindest einmal vor dem Gefahrenpunkt
 LTLSPEC F (v.V_KanalZuZug = L_IstGesichert -> v.V_Position < 95);
@@ -44,6 +40,21 @@ CTLSPEC A [ v.V_SAnschlagssensor = L_SchrankeOben  U
 		A [ v.V_SAnschlagssensor = L_KeinKontakt U
 		    (v.V_SAnschlagssensor = L_SchrankeOben & v.V_Position > 100)]]]];
 
-
 -- Wenn sich die Schranke öffnet, ist der Zug hinter dem Gefahrenpunkt oder der Timer ist abgelaufen
 LTLSPEC G ((v.V_SAnschlagssensor = L_SchrankeUnten & X v.V_SAnschlagssensor = L_KeinKontakt) -> (v.V_Countdown = 0 | v.V_Position > 100));
+
+
+
+-- EIGENSCHAFTEN ZUG
+
+-- Der Zug überfährt immer den Überfahrtsensor und ist davor nie stehen geblieben
+CTLSPEC A [ v.V_Geschwindigkeit > 0 U v.V_SUeberfahrtSensor = L_UeberfahrtZu];
+CTLSPEC A [ v.V_Geschwindigkeit > 0 U v.V_Position > 100];
+
+-- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
+CTLSPEC AF v.V_Position > 100;
+
+-- Wenn der Zug bremst, kommt er irgendwann auch zum Stehen
+LTLSPEC G (v.V_Zugnotbremse = L_NotbremseEin -> (F v.V_Geschwindigkeit = 0));
+
+
