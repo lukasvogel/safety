@@ -3,14 +3,23 @@
   <states>
     <initialNode Id="b3a83d8e-5a00-4d05-8dec-f0de4e86a99a" name="InitialNode1">
       <successors>
-        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12" guard="ReportedPosition == Position + Geschwindigkeit &amp;&amp; ReportedSpeed == Geschwindigkeit" label="ReportedPosition == Position + Geschwindigkeit &amp;&amp; ReportedSpeed == Geschwindigkeit">
+        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12" guard="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit" label="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit">
           <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
         </transition>
       </successors>
     </initialNode>
     <state Id="90091654-825b-4d18-9e88-811978f5825e" name="Calc">
       <successors>
-        <transition Id="b2c663e5-4924-48f6-b2a7-5be3f056e585" action="ReportedSpeed := Geschwindigkeit | ReportedPosition := Position + Geschwindigkeit" label="// ReportedSpeed := Geschwindigkeit | ReportedPosition := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 120">
+        <transition Id="b2c663e5-4924-48f6-b2a7-5be3f056e585" guard="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed == FaultHodometerSpeedNo" action="ReportedSpeed := Geschwindigkeit | ReportedPosition := ReportedPosition + Geschwindigkeit" label="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed == FaultHodometerSpeedNo // ReportedSpeed := Geschwindigkeit | ReportedPosition := ReportedPosition + Geschwindigkeit" precondition="ReportedPosition + Geschwindigkeit &lt;= 120">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
+        </transition>
+        <transition Id="591e9a96-9178-446a-855a-cb8ef607a749" guard="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed == FaultHodometerSpeedNo" action="ReportedSpeed := Geschwindigkeit |ReportedPosition := Position - 20" label="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed == FaultHodometerSpeedNo // ReportedSpeed := Geschwindigkeit |ReportedPosition := Position - 20" precondition="Position &gt;= 20">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
+        </transition>
+        <transition Id="240c26b8-4dae-469d-8fad-6a438a66c0da" guard="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed != FaultHodometerSpeedNo" action="ReportedSpeed := 1 | ReportedPosition := ReportedPosition + Geschwindigkeit" label="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed != FaultHodometerSpeedNo // ReportedSpeed := 1 | ReportedPosition := ReportedPosition + Geschwindigkeit" precondition="ReportedPosition + Geschwindigkeit &lt;= 120">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
+        </transition>
+        <transition Id="0848e798-8375-4a81-95cc-27e84902fc9e" guard="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed != FaultHodometerSpeedNo" action="ReportedSpeed := 1|ReportedPosition := Position - 20" label="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed != FaultHodometerSpeedNo // ReportedSpeed := 1|ReportedPosition := Position - 20" precondition="Position &gt;= 20">
           <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Calc" />
         </transition>
       </successors>
@@ -21,7 +30,7 @@
       <variable Id="983d7d42-8cca-4106-9b8c-31426e5fdb4c" name="ReportedPosition" range="0..120" />
     </programGraphHasVariables>
     <programGraphHasVariables Id="3ecbf411-d2db-4872-a7e6-e80d16a6d51e">
-      <variable Id="0b6aa313-8e1e-4736-9c60-4ab48f984309" name="ReportedSpeed" range="0..5" />
+      <variable Id="0b6aa313-8e1e-4736-9c60-4ab48f984309" name="ReportedSpeed" range="0..10" />
     </programGraphHasVariables>
   </variables>
   <importedVariables>
@@ -30,6 +39,12 @@
     </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="2ad97cc2-a0f9-494e-bd3f-0917d99e2ad0">
       <importedVariable Id="c90ad8f6-2e86-4758-bcd3-2eb722b43cf1" name="Zug.Position" range="0..120" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="a439df1d-b0b3-49b0-8369-be905d0b3f79">
+      <importedVariable Id="bcae4847-82ec-47d2-b2c0-c2a11fa4c530" name="FaultHodometerPos" range="FaultHodometerPosNo, FaultHodometerPosYes, SetLag" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="218b1780-ef5d-445c-835b-9ae2624b4429">
+      <importedVariable Id="0e991d58-8deb-49ae-8ad9-7111e3eee849" name="FaultHodometerSpeed" range="FaultHodometerSpeedNo, FaultHodometerSpeedYes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

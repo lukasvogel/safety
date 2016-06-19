@@ -22,7 +22,7 @@
         <stateShapeMoniker Id="be720335-ec01-4f9b-8a63-9a0a11219411" />
       </nodes>
     </transitionConnector>
-    <transitionConnector Id="1aed4396-2547-428c-9f1c-43f5483cc848" edgePoints="[(4 : 3.6875); (8.375 : 3.6875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <transitionConnector Id="1aed4396-2547-428c-9f1c-43f5483cc848" edgePoints="[(4 : 3.6875); (8.375 : 3.6875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="d41d7c21-6d9d-4fe0-8b25-22982528505b" />
       <relativeChildShapes />
       <moveableDecoratorHostShapes>
@@ -44,7 +44,7 @@
         <stateShapeMoniker Id="3084c12a-5d67-49c4-ba46-31d1447202e3" />
       </nodes>
     </transitionConnector>
-    <transitionConnector Id="e6fcfb16-eed6-4f62-a84f-e2a5bccbc18f" edgePoints="[(9.28804347826087 : 3.375); (9.28804347826087 : 2.5)]" fixedFrom="Caller" fixedTo="Algorithm">
+    <transitionConnector Id="e6fcfb16-eed6-4f62-a84f-e2a5bccbc18f" edgePoints="[(9.28804347826087 : 3.375); (9.28804347826087 : 2.5)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="1c9cabcd-e45e-4d4f-84d3-30e930668da5" />
       <relativeChildShapes />
       <moveableDecoratorHostShapes>
@@ -55,7 +55,7 @@
         <stateShapeMoniker Id="0a48e466-0ba5-4516-a8cb-63085bf85a23" />
       </nodes>
     </transitionConnector>
-    <transitionConnector Id="7f5fb39b-ad8d-430f-8f71-68578ccac6c6" edgePoints="[(8.375 : 3.53125); (4 : 3.53125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <transitionConnector Id="7f5fb39b-ad8d-430f-8f71-68578ccac6c6" edgePoints="[(8.375 : 3.53125); (4 : 3.53125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="10abe30f-eb64-4ca2-8cb7-d361592ebbca" />
       <relativeChildShapes />
       <nodes>
@@ -63,7 +63,7 @@
         <stateShapeMoniker Id="be720335-ec01-4f9b-8a63-9a0a11219411" />
       </nodes>
     </transitionConnector>
-    <transitionConnector Id="9c6374d0-3f93-48c4-88a0-4ac1421869a6" edgePoints="[(8.83152173913043 : 3.375); (8.83152173913043 : 2.5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <transitionConnector Id="9c6374d0-3f93-48c4-88a0-4ac1421869a6" edgePoints="[(8.83152173913043 : 3.375); (8.83152173913043 : 2.5)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="d95a733d-a546-4e3a-a15f-f3d86c0b7815" />
       <relativeChildShapes />
       <moveableDecoratorHostShapes>

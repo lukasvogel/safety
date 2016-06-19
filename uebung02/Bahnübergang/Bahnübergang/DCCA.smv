@@ -218,62 +218,59 @@ DEFINE noFaults := v.V_FailureBrakes = L_FailureBrakesNo
 DEFINE SP := 100;
 DEFINE GP := 95;
 
--- ****SOLLVERHALTEN****
 
--- WICHTIGSTE EIGENSCHAFT
+-- MINIMAL KRITISCHE MENGEN:
+-- {hodometerPos}
+DEFINE faultHodoPos := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
 
--- Der Zug ist niemals auf einem ungesichertem Bahn?bergang
-LTLSPEC (G noFaults) -> (G (v.V_Position >= GP & v.V_Position < SP -> v.V_SAnschlagssensor = L_SchrankeUnten));
+-- {hodometerSpeed}
+DEFINE faultHodoSpeed := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {FaultSecured}
+DEFINE faultSecured := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {FaultSensor}
+DEFINE faultSensor := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {FaultTimer}
+DEFINE faultTimer := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo;
+
+-- {FailureBrakes,FailureSMotor}
+DEFINE failureBrakesAndSMotor := 
+				   v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+
+-- Sanity check: Ohne faults geht alles gut!
 LTLSPEC (G noFaults) -> (G (v.V_Position >= GP & v.V_Position < SP -> v.V_SchrankenWinkel = 0));
 
-
--- EIGENSCHAFTEN ?BERGANG
-
--- Wenn der ?bergang die Sicherungsnachricht erh?lt, ist er irgendwann auch gesichert
-LTLSPEC (G noFaults) -> (G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SAnschlagssensor = L_SchrankeUnten));
-LTLSPEC (G noFaults) -> (G v.V_KanalZuUeb = L_BitteSichern -> (F v.V_SchrankenWinkel = 0));
-
--- Wenn der Bahn?bergang meldet, er sei gesichert, dann ist auch die Schranke unten
-LTLSPEC (G noFaults) -> (G (v.V_KommEinheitUebergang = L_Gesichert -> v.V_SAnschlagssensor = L_SchrankeUnten));
-LTLSPEC (G noFaults) -> (G (v.V_KommEinheitUebergang = L_Gesichert -> v.V_SchrankenWinkel = 0));
-
--- Wenn die Schranke unten ist, ist der ?bergang im n?chsten(!) Schritt (wegen Verz?gerung) gesichert
--- oder er war schon gesichert und ?ffent sich wieder
-LTLSPEC (G noFaults) -> (G (v.V_SAnschlagssensor = L_SchrankeUnten -> X (v.V_KommEinheitUebergang = L_Gesichert | v.V_KommEinheitUebergang = L_Oeffne)));
-
--- Der Zug erh?lt die Sicherungsbest?tigung, wenn er sie denn erh?lt, zumindest einmal vor dem Gefahrenpunkt
-LTLSPEC (G noFaults) -> (F (v.V_KanalZuZug = L_IstGesichert -> v.V_Position < GP));
-
--- Am Ende ?ffnet sich der ?bergang immer
-LTLSPEC (G noFaults) -> (F v.V_KommEinheitUebergang = L_Oeffne);
-
--- Die Schranke ist erst offen, dann geschlossen (wenn Zug Sicherung erfr?gt) und am Ende auf jeden Fall wieder offen
-LTLSPEC (G noFaults) -> 
-		 (G ( v.V_SAnschlagssensor = L_SchrankeOben  U
-		 ( v.V_SAnschlagssensor = L_KeinKontakt U
-		 (	v.V_SAnschlagssensor = L_SchrankeUnten U
-		 ( v.V_SAnschlagssensor = L_KeinKontakt U
-		    (v.V_SAnschlagssensor = L_SchrankeOben & v.V_Position > 100))))));
-
--- Wenn sich die Schranke ?ffnet, ist der Zug hinter dem Gefahrenpunkt oder der Timer ist abgelaufen
-LTLSPEC (G noFaults) -> (G ((v.V_SAnschlagssensor = L_SchrankeUnten & X v.V_SAnschlagssensor = L_KeinKontakt) -> (v.V_Countdown = 0 | v.V_Position > SP)));
-
-
-
--- EIGENSCHAFTEN ZUG
-
--- Der Zug ?berf?hrt immer den ?berfahrtsensor und ist davor nie stehen geblieben
-LTLSPEC (G noFaults) -> (G ( v.V_Geschwindigkeit > 0 U v.V_SUeberfahrtSensor = L_UeberfahrtZu));
-LTLSPEC (G noFaults) -> (G ( v.V_Geschwindigkeit > 0 U v.V_Position > SP));
-
--- Der Zug ist irgendwann immer hinter dem Gefahrenpunkt
-LTLSPEC (G noFaults) -> (F v.V_Position > SP);
-
--- Wenn der Zug bremst, kommt er irgendwann auch zum Stehen
-LTLSPEC (G noFaults) -> (G (v.V_Zugnotbremse = L_NotbremseEin -> (F v.V_Geschwindigkeit = 0)));
-
-
--- ****AD?QUATHEIT DER FEHLER****
-
--- FailureBreaks
--- Es gibt einen Trace indem der Zug nicht anh?lt obwohl die Notbremse ausl?st
+-- Single points of failure reichen um alles kaputt zu machen
+LTLSPEC faultSecured U (v.V_Position >= GP & v.V_Position < SP & v.V_SchrankenWinkel != 0);

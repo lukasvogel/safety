@@ -1,0 +1,75 @@
+﻿<#@ template inherits="Safety.ProgramGraphDsl.ProgramGraphTransformation" hostspecific="true" #>
+<#@ output encoding="us-ascii" extension=".smv" #>
+<#@ assembly Name="Safety.ProgramGraphDsl.dll" #>
+
+<#=  TransformToNuSMV() #>
+
+-- ****DEFINITIONS***
+
+DEFINE noFaults := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+DEFINE SP := 100;
+DEFINE GP := 95;
+
+
+-- MINIMAL KRITISCHE MENGEN:
+-- {hodometerPos}
+DEFINE faultHodoPos := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {hodometerSpeed}
+DEFINE faultHodoSpeed := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {FaultSecured}
+DEFINE faultSecured := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {FaultSensor}
+DEFINE faultSensor := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+-- {FaultTimer}
+DEFINE faultTimer := v.V_FailureBrakes = L_FailureBrakesNo
+				 & v.V_FailureSMotor = L_FailureSMotorNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo;
+
+-- {FailureBrakes,FailureSMotor}
+DEFINE failureBrakesAndSMotor := 
+				   v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
+				 & v.V_FaultSecured = L_FaultSecuredNo
+				 & v.V_FaultSensor = L_FaultSensorNo
+				 & v.V_FaultTimer = L_FaultTimerNo;
+
+
+-- Sanity check: Ohne faults geht alles gut!
+LTLSPEC (G noFaults) -> (G (v.V_Position >= GP & v.V_Position < SP -> v.V_SchrankenWinkel = 0));
+
+-- Single points of failure reichen um alles kaputt zu machen
+LTLSPEC faultSecured U (v.V_Position >= GP & v.V_Position < SP & v.V_SchrankenWinkel != 0);

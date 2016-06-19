@@ -61,6 +61,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="DCCA.smv">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DCCA.tt</DependentUpon>
+    </None>
     <None Include="FailureBrakes.pg" />
     <None Include="FailureBrakes.pg.diagram">
       <DependentUpon>FailureBrakes.pg</DependentUpon>
@@ -69,9 +74,13 @@
     <None Include="FailureSMotor.pg.diagram">
       <DependentUpon>FailureSMotor.pg</DependentUpon>
     </None>
-    <None Include="FaultHodometer.pg" />
-    <None Include="FaultHodometer.pg.diagram">
-      <DependentUpon>FaultHodometer.pg</DependentUpon>
+    <None Include="FaultHodometerPos.pg" />
+    <None Include="FaultHodometerPos.pg.diagram">
+      <DependentUpon>FaultHodometerPos.pg</DependentUpon>
+    </None>
+    <None Include="FaultHodometerSpeed.pg" />
+    <None Include="FaultHodometerSpeed.pg.diagram">
+      <DependentUpon>FaultHodometerSpeed.pg</DependentUpon>
     </None>
     <None Include="FaultSecured.pg" />
     <None Include="FaultSecured.pg.diagram">
@@ -137,6 +146,10 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DCCA.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DCCA.smv</LastGenOutput>
+    </Content>
     <Content Include="NuSMV1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NuSMV1.smv</LastGenOutput>

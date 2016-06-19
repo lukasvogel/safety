@@ -8,7 +8,8 @@
 
 DEFINE noFaults := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FailureSMotor = L_FailureSMotorNo
-				 & v.V_FaultHodometer = L_FaultHodometerNo
+				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
+				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
 				 & v.V_FaultSecured = L_FaultSecuredNo
 				 & v.V_FaultSensor = L_FaultSensorNo
 				 & v.V_FaultTimer = L_FaultTimerNo;
@@ -21,8 +22,8 @@ DEFINE GP := 95;
 -- WICHTIGSTE EIGENSCHAFT
 
 -- Der Zug ist niemals auf einem ungesichertem Bahnübergang
-LTLSPEC (G noFaults) -> (G (v.V_Position >= 95 & v.V_Position < SP -> v.V_SAnschlagssensor = L_SchrankeUnten));
-LTLSPEC (G noFaults) -> (G (v.V_Position >= 95 & v.V_Position < SP -> v.V_SchrankenWinkel = 0));
+LTLSPEC (G noFaults) -> (G (v.V_Position >= GP & v.V_Position < SP -> v.V_SAnschlagssensor = L_SchrankeUnten));
+LTLSPEC (G noFaults) -> (G (v.V_Position >= GP & v.V_Position < SP -> v.V_SchrankenWinkel = 0));
 
 
 -- EIGENSCHAFTEN ÜBERGANG

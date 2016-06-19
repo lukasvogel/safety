@@ -27,9 +27,6 @@
     <programGraphHasImportedVariables Id="c9b707cf-c1e2-47df-a8bb-3e022f97c1da">
       <importedVariable Id="63febad9-dbbe-4601-89a5-be482f801335" name="KommEinheitZug" range="Idle, WarteAufBest, KeineBestErhalten, BestErhalten" />
     </programGraphHasImportedVariables>
-    <programGraphHasImportedVariables Id="9799b64f-e528-446a-808a-5a146788eedf">
-      <importedVariable Id="02f53c05-c0bd-4afc-85d3-002c7a092c29" name="Hodometer.ReportedSpeed" range="0..5" />
-    </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="3a89d7a6-8357-419d-90af-97d11bf8c1c7">
       <importedVariable Id="da1ef622-141e-4fe4-95a9-a7e7d661a5c5" name="Zug.Geschwindigkeit" range="0..5" />
     </programGraphHasImportedVariables>

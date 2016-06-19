@@ -16,7 +16,7 @@
         <transition Id="1c9cabcd-e45e-4d4f-84d3-30e930668da5" guard="Countdown == 0" label="Countdown == 0">
           <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerTriggered" />
         </transition>
-        <transition Id="10abe30f-eb64-4ca2-8cb7-d361592ebbca" guard="KommEinheitUebergang == Oeffne" action="Countdown := 100" label="KommEinheitUebergang == Oeffne // Countdown := 100" precondition="true">
+        <transition Id="10abe30f-eb64-4ca2-8cb7-d361592ebbca" guard="KommEinheitUebergang == Oeffne" action="Countdown := 20" label="KommEinheitUebergang == Oeffne // Countdown := 20" precondition="true">
           <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerIdle" />
         </transition>
         <transition Id="d95a733d-a546-4e3a-a15f-f3d86c0b7815" guard="FaultTimer != FaultTimerNo" label="FaultTimer != FaultTimerNo">
@@ -27,7 +27,7 @@
     <state Id="e5dee829-e8b8-4da3-82e1-186e29ee3c08" name="TimerTriggered" />
     <initialNode Id="bab7354d-a6f3-4094-bdd5-5f357f823cc5" name="InitialNode1">
       <successors>
-        <transition Id="5ba1fae6-1970-439f-a0a8-584c25e6268a" guard="Countdown == 100" label="Countdown == 100">
+        <transition Id="5ba1fae6-1970-439f-a0a8-584c25e6268a" guard="Countdown == 20" label="Countdown == 20">
           <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerIdle" />
         </transition>
       </successors>
@@ -35,7 +35,7 @@
   </states>
   <variables>
     <programGraphHasVariables Id="f4fee013-583b-4184-9c69-cc323be7fc14">
-      <variable Id="1f0a4067-eb8f-4e59-9173-f4f2ed15187d" name="Countdown" range="0..100" />
+      <variable Id="1f0a4067-eb8f-4e59-9173-f4f2ed15187d" name="Countdown" range="0..20" />
     </programGraphHasVariables>
   </variables>
   <importedVariables>
