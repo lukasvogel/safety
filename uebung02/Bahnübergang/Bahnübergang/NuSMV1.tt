@@ -74,5 +74,18 @@ LTLSPEC (G noFaults) -> (G (v.V_Zugnotbremse = L_NotbremseEin -> (F v.V_Geschwin
 
 -- ****ADÄQUATHEIT DER FEHLER****
 
+--- FaultHodometerPos
+-- Wenn die Positionsbestimmung des Hodometers fehlschlägt, ist danach die tatsächliche Position größer als die gemeldete
+LTLSPEC (F v.V_FaultHodometerPos != L_FaultHodometerPosNo) -> F (v.V_Position > v.V_ReportedPosition);
+
+--- FaultHodometerSpeed
+-- Wenn die Geschwindigkeitsanzeige falsche Werte liefert, ist die gemessene Geschwindigkeit im nächsten Schritt immer 1
+LTLSPEC G (v.V_FaultHodometerSpeed != L_FaultHodometerSpeedNo & v.V_Position <= 115 -> X v.V_ReportedSpeed = 1)
+
+--- FailureSMotor
+-- Wenn der Schrankenmotor versagt, während sie offen ist, geht sie nie zu
+LTLSPEC (v.V_SchrankenWinkel = 90 U v.V_FailureSMotor != L_FailureSMotorNo) -> G v.V_SchrankenWinkel != 0;
+
 -- FailureBreaks
--- Es gibt einen Trace indem der Zug nicht anhält obwohl die Notbremse auslöst
+-- Wenn die Bremsen irgendwann versagen während der Zug fährt, hält der Zug niemals an
+LTLSPEC (F v.V_FailureBrakes != L_FailureBrakesNo & G v.V_Geschwindigkeit > 0) -> G v.V_Geschwindigkeit != 0;

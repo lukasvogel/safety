@@ -23,8 +23,11 @@
         <transition Id="3118e83f-ec9a-4ebb-992b-9015b1e36fbb" guard="SAnschlagssensor == SchrankeUnten" label="SAnschlagssensor == SchrankeUnten">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorAus" />
         </transition>
-        <transition Id="79c91489-66a0-44f9-8d57-059e35e36aae" guard="SAnschlagssensor != SchrankeUnten" action="SchrankenWinkel := SchrankenWinkel - 45" label="SAnschlagssensor != SchrankeUnten // SchrankenWinkel := SchrankenWinkel - 45" precondition="SchrankenWinkel != 0">
+        <transition Id="79c91489-66a0-44f9-8d57-059e35e36aae" guard="FailureSMotor == FailureSMotorNo &amp;&amp;SAnschlagssensor != SchrankeUnten" action="SchrankenWinkel := SchrankenWinkel - 45" label="FailureSMotor == FailureSMotorNo &amp;&amp;SAnschlagssensor != SchrankeUnten // SchrankenWinkel := SchrankenWinkel - 45" precondition="SchrankenWinkel != 0">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorSchliesse" />
+        </transition>
+        <transition Id="c219d2c0-ce1f-41a8-a3c8-b3d0b169d143" guard="FailureSMotor != FailureSMotorNo" label="FailureSMotor != FailureSMotorNo">
+          <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorAus" />
         </transition>
       </successors>
     </state>
@@ -33,8 +36,11 @@
         <transition Id="8b7deb42-0e71-4710-8b2c-ddf149a17dd9" guard="SAnschlagssensor == SchrankeOben" label="SAnschlagssensor == SchrankeOben">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorAus" />
         </transition>
-        <transition Id="f3b088b4-b932-42c9-86db-9101fd1afea9" guard="SAnschlagssensor != SchrankeOben" action="SchrankenWinkel := SchrankenWinkel + 45" label="SAnschlagssensor != SchrankeOben // SchrankenWinkel := SchrankenWinkel + 45" precondition="SchrankenWinkel != 90">
+        <transition Id="f3b088b4-b932-42c9-86db-9101fd1afea9" guard="FailureSMotor == FailureSMotorNo &amp;&amp; SAnschlagssensor != SchrankeOben" action="SchrankenWinkel := SchrankenWinkel + 45" label="FailureSMotor == FailureSMotorNo &amp;&amp; SAnschlagssensor != SchrankeOben // SchrankenWinkel := SchrankenWinkel + 45" precondition="SchrankenWinkel != 90">
           <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorOeffne" />
+        </transition>
+        <transition Id="d9452bba-2a5a-4cfd-b18a-cb11c340385d" guard="FailureSMotor != FailureSMotorNo" label="FailureSMotor != FailureSMotorNo">
+          <stateMoniker name="/4d7e3c52-aa5e-4689-95f7-846be59c30c7/SMotorAus" />
         </transition>
       </successors>
     </state>

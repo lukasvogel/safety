@@ -20,7 +20,7 @@
     </state>
     <state Id="4ee37f71-dad1-4ca8-90d7-3e041b885537" name="UeberfahrtZu">
       <successors>
-        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="Position &lt; SP" label="Position &lt; SP">
+        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="FaultSensor == FaultSensorNo &amp;&amp;Position &lt; SP" label="FaultSensor == FaultSensorNo &amp;&amp;Position &lt; SP">
           <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/UeberfahrtOffen" />
         </transition>
         <transition Id="c67e9285-cfc6-404f-8953-e5a87401a2bd" guard="FaultSensor != FaultSensorNo" label="FaultSensor != FaultSensorNo">
