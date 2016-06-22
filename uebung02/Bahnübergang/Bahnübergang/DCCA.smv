@@ -45,10 +45,10 @@ MODULE _P_FaultHodometerPos(v)
 		(v.V_FaultHodometerPos = L_FaultHodometerPosNo) & (TRUE)
 	TRANS
 		 ( v.V_FaultHodometerPos = L_FaultHodometerPosNo & next(v.V_FaultHodometerPos) = L_FaultHodometerPosNo & TRUE & (TRUE))  |
-		 ( v.V_FaultHodometerPos = L_FaultHodometerPosNo & next(v.V_FaultHodometerPos) = L_SetLag & (v.V_ReportedPosition >= 20) & (TRUE))  |
-		 ( v.V_FaultHodometerPos = L_SetLag & next(v.V_FaultHodometerPos) = L_FaultHodometerPosYes & (v.V_ReportedPosition < v.V_Position) & (TRUE))  |
+		 ( v.V_FaultHodometerPos = L_FaultHodometerPosNo & next(v.V_FaultHodometerPos) = L_SetLag & (v.V_Position >= 20) & (TRUE))  |
+		 ( v.V_FaultHodometerPos = L_SetLag & next(v.V_FaultHodometerPos) = L_FaultHodometerPosYes & (v.V_ReportedPosition <= (v.V_Position - 20)) & (TRUE))  |
 		 ( v.V_FaultHodometerPos = L_FaultHodometerPosYes & next(v.V_FaultHodometerPos) = L_FaultHodometerPosYes & TRUE & (TRUE))  |
-		 ( v.V_FaultHodometerPos = L_SetLag & next(v.V_FaultHodometerPos) = L_SetLag & !(v.V_ReportedPosition < v.V_Position) & (TRUE));
+		 ( v.V_FaultHodometerPos = L_SetLag & next(v.V_FaultHodometerPos) = L_SetLag & !(v.V_ReportedPosition <= (v.V_Position - 20)) & (TRUE));
 MODULE _P_FaultHodometerSpeed(v)
 	INIT
 		(v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo) & (TRUE)
@@ -136,22 +136,24 @@ MODULE _P_SMotor(v)
 		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorSchliesse & (((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_SAnschlagssensor != L_SchrankeUnten)) & (v.V_KommEinheitUebergang = L_Sichere)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
 		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorOeffne & (((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_KommEinheitUebergang = L_Oeffne)) & (v.V_SAnschlagssensor != L_SchrankeOben)) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
 		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorAus & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & ((v.V_SAnschlagssensor != L_SchrankeUnten) & (v.V_SchrankenWinkel != 0)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel - 45)))  |
+		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & (((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_SAnschlagssensor != L_SchrankeUnten)) & (v.V_SchrankenWinkel != 0)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel - 45)))  |
+		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorAus & (v.V_FailureSMotor != L_FailureSMotorNo) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
 		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorAus & (v.V_SAnschlagssensor = L_SchrankeOben) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & ((v.V_SAnschlagssensor != L_SchrankeOben) & (v.V_SchrankenWinkel != 90)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel + 45)))  |
+		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & (((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_SAnschlagssensor != L_SchrankeOben)) & (v.V_SchrankenWinkel != 90)) & (next(v.V_SchrankenWinkel) = (v.V_SchrankenWinkel + 45)))  |
+		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorAus & (v.V_FailureSMotor != L_FailureSMotorNo) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
 		 ( v.V_SMotor = L_SMotorAus & next(v.V_SMotor) = L_SMotorAus & (!(((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_SAnschlagssensor != L_SchrankeUnten)) & (v.V_KommEinheitUebergang = L_Sichere)) & !(((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_KommEinheitUebergang = L_Oeffne)) & (v.V_SAnschlagssensor != L_SchrankeOben))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & (!(v.V_SAnschlagssensor = L_SchrankeUnten) & !((v.V_SAnschlagssensor != L_SchrankeUnten) & (v.V_SchrankenWinkel != 0))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
-		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & (!(v.V_SAnschlagssensor = L_SchrankeOben) & !((v.V_SAnschlagssensor != L_SchrankeOben) & (v.V_SchrankenWinkel != 90))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel));
+		 ( v.V_SMotor = L_SMotorSchliesse & next(v.V_SMotor) = L_SMotorSchliesse & (!(v.V_SAnschlagssensor = L_SchrankeUnten) & (!(((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_SAnschlagssensor != L_SchrankeUnten)) & (v.V_SchrankenWinkel != 0)) & !(v.V_FailureSMotor != L_FailureSMotorNo))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel))  |
+		 ( v.V_SMotor = L_SMotorOeffne & next(v.V_SMotor) = L_SMotorOeffne & (!(v.V_SAnschlagssensor = L_SchrankeOben) & (!(((v.V_FailureSMotor = L_FailureSMotorNo) & (v.V_SAnschlagssensor != L_SchrankeOben)) & (v.V_SchrankenWinkel != 90)) & !(v.V_FailureSMotor != L_FailureSMotorNo))) & (next(v.V_SchrankenWinkel) = v.V_SchrankenWinkel));
 MODULE _P_SUeberfahrtSensor(v)
 	INIT
 		(v.V_SUeberfahrtSensor = L_UeberfahrtOffen) & (TRUE)
 	TRANS
 		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & ((v.V_Position >= 100) & (v.V_Position <= (100 + 10))) & (TRUE))  |
 		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (v.V_FaultSensor != L_FaultSensorNo) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & (v.V_Position < 100) & (TRUE))  |
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & ((v.V_FaultSensor = L_FaultSensorNo) & (v.V_Position < 100)) & (TRUE))  |
 		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (v.V_FaultSensor != L_FaultSensorNo) & (TRUE))  |
 		 ( v.V_SUeberfahrtSensor = L_UeberfahrtOffen & next(v.V_SUeberfahrtSensor) = L_UeberfahrtOffen & (!((v.V_Position >= 100) & (v.V_Position <= (100 + 10))) & !(v.V_FaultSensor != L_FaultSensorNo)) & (TRUE))  |
-		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (!(v.V_Position < 100) & !(v.V_FaultSensor != L_FaultSensorNo)) & (TRUE));
+		 ( v.V_SUeberfahrtSensor = L_UeberfahrtZu & next(v.V_SUeberfahrtSensor) = L_UeberfahrtZu & (!((v.V_FaultSensor = L_FaultSensorNo) & (v.V_Position < 100)) & !(v.V_FaultSensor != L_FaultSensorNo)) & (TRUE));
 MODULE _P_Timer(v)
 	INIT
 		(v.V_Timer = L_TimerIdle) & ((v.V_Countdown = 20))
@@ -218,10 +220,11 @@ DEFINE noFaults := v.V_FailureBrakes = L_FailureBrakesNo
 DEFINE SP := 100;
 DEFINE GP := 95;
 
+DEFINE hazard := (v.V_Position >= GP & v.V_Position < SP & v.V_SchrankenWinkel != 0);
 
 -- MINIMAL KRITISCHE MENGEN:
 -- {hodometerPos}
-DEFINE faultHodoPos := v.V_FailureBrakes = L_FailureBrakesNo
+DEFINE onlyFaultHodoPos := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FailureSMotor = L_FailureSMotorNo
 				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
 				 & v.V_FaultSecured = L_FaultSecuredNo
@@ -229,7 +232,7 @@ DEFINE faultHodoPos := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FaultTimer = L_FaultTimerNo;
 
 -- {hodometerSpeed}
-DEFINE faultHodoSpeed := v.V_FailureBrakes = L_FailureBrakesNo
+DEFINE onlyFaultHodoSpeed := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FailureSMotor = L_FailureSMotorNo
 				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
 				 & v.V_FaultSecured = L_FaultSecuredNo
@@ -237,7 +240,7 @@ DEFINE faultHodoSpeed := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FaultTimer = L_FaultTimerNo;
 
 -- {FaultSecured}
-DEFINE faultSecured := v.V_FailureBrakes = L_FailureBrakesNo
+DEFINE onlyFaultSecured := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FailureSMotor = L_FailureSMotorNo
 				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
 				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
@@ -245,7 +248,7 @@ DEFINE faultSecured := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FaultTimer = L_FaultTimerNo;
 
 -- {FaultSensor}
-DEFINE faultSensor := v.V_FailureBrakes = L_FailureBrakesNo
+DEFINE onlyFaultSensor := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FailureSMotor = L_FailureSMotorNo
 				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
 				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
@@ -253,7 +256,7 @@ DEFINE faultSensor := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FaultTimer = L_FaultTimerNo;
 
 -- {FaultTimer}
-DEFINE faultTimer := v.V_FailureBrakes = L_FailureBrakesNo
+DEFINE onlyFaultTimer := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FailureSMotor = L_FailureSMotorNo
 				 & v.V_FaultHodometerPos = L_FaultHodometerPosNo
 				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
@@ -270,7 +273,20 @@ DEFINE failureBrakesAndSMotor :=
 
 
 -- Sanity check: Ohne faults geht alles gut!
-LTLSPEC (G noFaults) -> (G (v.V_Position >= GP & v.V_Position < SP -> v.V_SchrankenWinkel = 0));
+LTLSPEC (G noFaults) -> (G !hazard);
+
+-- TODO: Diese Formel ist falsch, das zeigt, dass HodoSpeed alleine ausreicht,
+-- um den Hazard auszul?sen. Aus irgendeinem Grund ist die korrespondierende
+-- CTL-Formel trotzdem falsch.
+
+-- LTLSPEC (G onlyFaultHodoSpeed) -> (G !hazard);
 
 -- Single points of failure reichen um alles kaputt zu machen
-LTLSPEC faultSecured U (v.V_Position >= GP & v.V_Position < SP & v.V_SchrankenWinkel != 0);
+CTLSPEC E [ onlyFaultSecured U hazard];
+CTLSPEC E [ onlyFaultSensor U hazard];
+CTLSPEC E [ onlyFaultTimer U hazard];
+CTLSPEC E [ onlyFaultHodoPos U hazard];
+CTLSPEC E [ onlyFaultHodoSpeed U hazard];
+
+-- FailureBrakes und FailureSMotor m?ssen zusammen auftreten
+CTLSPEC E [ failureBrakesAndSMotor U hazard];

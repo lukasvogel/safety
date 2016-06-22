@@ -6,7 +6,7 @@
         <transition Id="b3499e16-e479-42ca-a8af-237d83a2faee">
           <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerPosNo" />
         </transition>
-        <transition Id="81536825-0a73-43fd-9ab2-b2aaf2adafd0" guard="ReportedPosition &gt;= 20" label="ReportedPosition &gt;= 20">
+        <transition Id="81536825-0a73-43fd-9ab2-b2aaf2adafd0" guard="Position &gt;= 20" label="Position &gt;= 20">
           <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/SetLag" />
         </transition>
       </successors>
@@ -21,7 +21,7 @@
     </initialNode>
     <state Id="1da19db8-843a-4a63-8909-839d27343596" name="SetLag">
       <successors>
-        <transition Id="94ea9f3a-f186-4303-b9b9-d672b8fd8ced" guard="ReportedPosition &lt; Position" label="ReportedPosition &lt; Position">
+        <transition Id="94ea9f3a-f186-4303-b9b9-d672b8fd8ced" guard="ReportedPosition &lt;= Position - 20" label="ReportedPosition &lt;= Position - 20">
           <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/FaultHodometerPosYes" />
         </transition>
       </successors>
