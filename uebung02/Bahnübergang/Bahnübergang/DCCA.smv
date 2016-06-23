@@ -264,7 +264,7 @@ DEFINE onlyFaultTimer := v.V_FailureBrakes = L_FailureBrakesNo
 				 & v.V_FaultSensor = L_FaultSensorNo;
 
 -- {FailureBrakes,FailureSMotor}
-DEFINE failureBrakesAndSMotor := 
+DEFINE failureBrakesAndSMotor :=
 				   v.V_FaultHodometerPos = L_FaultHodometerPosNo
 				 & v.V_FaultHodometerSpeed = L_FaultHodometerSpeedNo
 				 & v.V_FaultSecured = L_FaultSecuredNo
@@ -275,18 +275,12 @@ DEFINE failureBrakesAndSMotor :=
 -- Sanity check: Ohne faults geht alles gut!
 LTLSPEC (G noFaults) -> (G !hazard);
 
--- TODO: Diese Formel ist falsch, das zeigt, dass HodoSpeed alleine ausreicht,
--- um den Hazard auszul?sen. Aus irgendeinem Grund ist die korrespondierende
--- CTL-Formel trotzdem falsch.
-
--- LTLSPEC (G onlyFaultHodoSpeed) -> (G !hazard);
-
 -- Single points of failure reichen um alles kaputt zu machen
-CTLSPEC E [ onlyFaultSecured U hazard];
-CTLSPEC E [ onlyFaultSensor U hazard];
-CTLSPEC E [ onlyFaultTimer U hazard];
-CTLSPEC E [ onlyFaultHodoPos U hazard];
-CTLSPEC E [ onlyFaultHodoSpeed U hazard];
+LTLSPEC !(onlyFaultSecured U hazard);
+LTLSPEC !(onlyFaultSensor U hazard);
+LTLSPEC !(onlyFaultTimer U hazard);
+LTLSPEC !(onlyFaultHodoPos U hazard);
+LTLSPEC !(onlyFaultHodoSpeed U hazard);
 
 -- FailureBrakes und FailureSMotor m?ssen zusammen auftreten
-CTLSPEC E [ failureBrakesAndSMotor U hazard];
+LTLSPEC !(failureBrakesAndSMotor U hazard);
