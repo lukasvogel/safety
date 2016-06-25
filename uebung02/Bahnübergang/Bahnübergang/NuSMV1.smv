@@ -293,8 +293,14 @@ LTLSPEC (v.V_SchrankenWinkel = 90 U v.V_FailureSMotor != L_No) -> G v.V_Schranke
 -- Wenn die Bremsen irgendwann versagen w?hrend der Zug f?hrt, h?lt der Zug niemals an
 LTLSPEC (F v.V_FailureBrakes != L_No & G v.V_Geschwindigkeit > 0) -> G v.V_Geschwindigkeit != 0;
 
-
 -- FaultSensor
+-- Obwohl der Zug noch vor dem Sensorpunkt ist, meldet der Sensor manchmal schon eine ?berfahrt
+CTLSPEC EF (v.V_Position < SP & v.V_UeberfahrtSensor = L_Zu);
+
 -- FaultTimer
--- Es gibt einen Pfad
+-- Der Timer triggered in manchen Pfaden bevor der Zug ?berhaupt am Gefahrenpunkt ist, obwohl er nicht abgebremst hat
+CTLSPEC EF (v.V_FaultTimer != L_No & v.V_Position < GP & v.V_Geschwindigkeit > 0 & v.V_Timer = L_Triggered)
+
 -- FaultSecured
+-- Es gibt mindestens einen ?bergang, indem der ?bergang meldet, er sei gesichert, obwohl die Schranke nicht unten ist
+CTLSPEC EF (v.V_KanalZuZug = L_IstGesichert & v.V_SchrankenWinkel != 0)
