@@ -20,7 +20,7 @@
     </state>
     <state Id="70fb7e77-1c38-454f-9b8a-c551165fd2fb" name="Stehend">
       <successors>
-        <transition Id="a9b24bc5-9dfa-4b30-a322-f3704829d1f2" guard="Geschwindigkeit &gt; 0 &amp;&amp; Zugnotbremse == NotbremseAus" action="Position := Position + Geschwindigkeit" label="Geschwindigkeit &gt; 0 &amp;&amp; Zugnotbremse == NotbremseAus // Position := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 100">
+        <transition Id="a9b24bc5-9dfa-4b30-a322-f3704829d1f2" guard="Geschwindigkeit &gt; 0 &amp;&amp; Notbremse == Aus" action="Position := Position + Geschwindigkeit" label="Geschwindigkeit &gt; 0 &amp;&amp; Notbremse == Aus // Position := Position + Geschwindigkeit" precondition="Position + Geschwindigkeit &lt;= 100">
           <stateMoniker name="/53c0a73f-34a3-418f-bb2b-b68ecb5798ee/Fahrend" />
         </transition>
       </successors>
@@ -35,8 +35,8 @@
     </programGraphHasVariables>
   </variables>
   <importedVariables>
-    <programGraphHasImportedVariables Id="15eb613b-b2d8-404d-8618-424c76cb22a4">
-      <importedVariable Id="cbabb8e7-3f4d-4bfb-8706-e97b3a40634a" name="Zugnotbremse" range="NotbremseAus, NotbremseEin" />
+    <programGraphHasImportedVariables Id="0e5a16e1-1049-4e1b-a65a-cab1253157a9">
+      <importedVariable Id="9f7dd2d4-9064-4790-82f8-fb7030003f76" name="Notbremse" range="Aus, Ein" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

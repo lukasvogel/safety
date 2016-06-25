@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="855dfecd-7600-449c-818c-624db18874eb" name="Hodometer" type="Sensor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="b3a83d8e-5a00-4d05-8dec-f0de4e86a99a" name="InitialNode1">
+      <successors>
+        <transition Id="b6e7dc3e-1ae0-4849-a020-f2e68c002e12" guard="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit" label="ReportedPosition == Position &amp;&amp; ReportedSpeed == Geschwindigkeit">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Messe" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="90091654-825b-4d18-9e88-811978f5825e" name="Messe">
+      <successors>
+        <transition Id="b2c663e5-4924-48f6-b2a7-5be3f056e585" guard="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed == No" action="ReportedSpeed := Geschwindigkeit | ReportedPosition := ReportedPosition + Geschwindigkeit" label="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed == No // ReportedSpeed := Geschwindigkeit | ReportedPosition := ReportedPosition + Geschwindigkeit" precondition="ReportedPosition + Geschwindigkeit &lt;= 120">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Messe" />
+        </transition>
+        <transition Id="591e9a96-9178-446a-855a-cb8ef607a749" guard="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed == No" action="ReportedSpeed := Geschwindigkeit |ReportedPosition := Position - 20" label="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed == No // ReportedSpeed := Geschwindigkeit |ReportedPosition := Position - 20" precondition="Position &gt;= 20">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Messe" />
+        </transition>
+        <transition Id="240c26b8-4dae-469d-8fad-6a438a66c0da" guard="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed != No" action="ReportedSpeed := 1 | ReportedPosition := ReportedPosition + Geschwindigkeit" label="FaultHodometerPos != SetLag &amp;&amp; FaultHodometerSpeed != No // ReportedSpeed := 1 | ReportedPosition := ReportedPosition + Geschwindigkeit" precondition="ReportedPosition + Geschwindigkeit &lt;= 120">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Messe" />
+        </transition>
+        <transition Id="0848e798-8375-4a81-95cc-27e84902fc9e" guard="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed != No" action="ReportedSpeed := 1|ReportedPosition := Position - 20" label="FaultHodometerPos == SetLag &amp;&amp; FaultHodometerSpeed != No // ReportedSpeed := 1|ReportedPosition := Position - 20" precondition="Position &gt;= 20">
+          <stateMoniker name="/855dfecd-7600-449c-818c-624db18874eb/Messe" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <variables>
+    <programGraphHasVariables Id="cca51d06-7756-4cc0-a8dd-c43c02b8364c">
+      <variable Id="983d7d42-8cca-4106-9b8c-31426e5fdb4c" name="ReportedPosition" range="0..120" />
+    </programGraphHasVariables>
+    <programGraphHasVariables Id="3ecbf411-d2db-4872-a7e6-e80d16a6d51e">
+      <variable Id="0b6aa313-8e1e-4736-9c60-4ab48f984309" name="ReportedSpeed" range="0..10" />
+    </programGraphHasVariables>
+  </variables>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="9f24f45d-7255-4d96-971e-0eea2858142c">
+      <importedVariable Id="51f946f0-39a2-4fdb-b3d7-c30bdbd24b58" name="Zug.Geschwindigkeit" range="0..5" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="2ad97cc2-a0f9-494e-bd3f-0917d99e2ad0">
+      <importedVariable Id="c90ad8f6-2e86-4758-bcd3-2eb722b43cf1" name="Zug.Position" range="0..120" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="82380ca4-0f55-494e-9d02-674c834591c0">
+      <importedVariable Id="c4374757-2e35-4c4a-8859-dba098a4eba1" name="FaultHodometerPos" range="No, Yes, SetLag" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="f965810f-aa65-46f2-850a-9fdc7acdc47b">
+      <importedVariable Id="10616464-ab1a-435c-a6df-f4d4c7ae9265" name="FaultHodometerSpeed" range="No, Yes" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

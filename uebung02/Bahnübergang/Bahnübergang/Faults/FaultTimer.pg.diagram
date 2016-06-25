@@ -3,10 +3,10 @@
   <programGraphMoniker Id="b9215638-e39e-4289-a059-9b89212c7d12" />
   <nestedChildShapes>
     <stateShape Id="4e699e9d-d6fc-4252-ac8d-0e6ad8490d3c" absoluteBounds="3.875, 3.875, 1, 0.5">
-      <stateMoniker name="/b9215638-e39e-4289-a059-9b89212c7d12/FaultTimerNo" />
+      <stateMoniker name="/b9215638-e39e-4289-a059-9b89212c7d12/No" />
     </stateShape>
     <stateShape Id="d12fbb94-eea8-474f-89dc-781892ec3f40" absoluteBounds="5.625, 3.875, 1, 0.5">
-      <stateMoniker name="/b9215638-e39e-4289-a059-9b89212c7d12/FaultTimerYes" />
+      <stateMoniker name="/b9215638-e39e-4289-a059-9b89212c7d12/Yes" />
     </stateShape>
     <initialStateShape Id="016375cd-9ba4-42e7-b045-4d07632286e8" absoluteBounds="4.25, 3.25, 0.125, 0.125">
       <initialNodeMoniker name="/b9215638-e39e-4289-a059-9b89212c7d12/InitialNode1" />

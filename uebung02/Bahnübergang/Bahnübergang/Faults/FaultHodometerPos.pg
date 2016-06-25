@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="b338e4f7-53ee-451d-8b5d-7f06a59d3db9" name="FaultHodometerPos" type="Fault" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <state Id="9a80fdec-7976-444c-b16b-32abe14e9f7b" name="No">
+      <successors>
+        <transition Id="b3499e16-e479-42ca-a8af-237d83a2faee">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/No" />
+        </transition>
+        <transition Id="81536825-0a73-43fd-9ab2-b2aaf2adafd0" guard="Position &gt;= 20" label="Position &gt;= 20">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/SetLag" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="2b7e210d-fbac-4edb-addd-80647603d135" name="Yes" />
+    <initialNode Id="08481dfb-153b-4601-bd60-57300bb1af5a" name="InitialNode1">
+      <successors>
+        <transition Id="7eb85fec-5369-41c6-91ac-8dc8ef77cab1">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/No" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="1da19db8-843a-4a63-8909-839d27343596" name="SetLag">
+      <successors>
+        <transition Id="94ea9f3a-f186-4303-b9b9-d672b8fd8ced" guard="ReportedPosition &lt;= Position - 20" label="ReportedPosition &lt;= Position - 20">
+          <stateMoniker name="/b338e4f7-53ee-451d-8b5d-7f06a59d3db9/Yes" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="34b29a43-0972-4a76-823c-a298c1feb814">
+      <importedVariable Id="45c4e952-7ff7-4bc7-8ad0-ff7ce31731f2" name="Hodometer.ReportedPosition" range="0..120" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="031fba1f-cdce-44d5-9453-43e98a0273a8">
+      <importedVariable Id="c44afd6a-7622-4480-9bab-272517c93c62" name="Zug.Position" range="0..120" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

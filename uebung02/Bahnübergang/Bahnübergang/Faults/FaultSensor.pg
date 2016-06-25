@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="5db5ad2a-1114-4e62-906f-0f7a0aa110cb" name="FaultSensor" type="Fault" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <state Id="622ea5a1-29c9-4726-a576-360861e42991" name="No">
+      <successors>
+        <transition Id="345e63d8-267e-4eba-b256-899962dc86e1">
+          <stateMoniker name="/5db5ad2a-1114-4e62-906f-0f7a0aa110cb/Yes" />
+        </transition>
+        <transition Id="3b25a663-8374-4502-917e-3ce6d58a64a3">
+          <stateMoniker name="/5db5ad2a-1114-4e62-906f-0f7a0aa110cb/No" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="ae915d7a-4435-4717-81f3-1638e81d5388" name="Yes">
+      <successors>
+        <transition Id="489904e4-91c9-407d-b27e-3c1649b7f045">
+          <stateMoniker name="/5db5ad2a-1114-4e62-906f-0f7a0aa110cb/No" />
+        </transition>
+        <transition Id="b942ac28-0832-4394-abcb-5e3c2a06769c">
+          <stateMoniker name="/5db5ad2a-1114-4e62-906f-0f7a0aa110cb/Yes" />
+        </transition>
+      </successors>
+    </state>
+    <initialNode Id="a38fb8b0-3141-4b2b-84fe-9c59d86aaed8" name="InitialNode1">
+      <successors>
+        <transition Id="1ec6c7c5-d1f9-4b22-8dbf-1543db69bab3">
+          <stateMoniker name="/5db5ad2a-1114-4e62-906f-0f7a0aa110cb/No" />
+        </transition>
+      </successors>
+    </initialNode>
+  </states>
+</programGraph>

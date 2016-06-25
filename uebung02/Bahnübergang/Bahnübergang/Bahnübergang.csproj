@@ -66,46 +66,46 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DCCA.tt</DependentUpon>
     </None>
-    <None Include="FailureBrakes.pg" />
-    <None Include="FailureBrakes.pg.diagram">
+    <None Include="Faults\FailureBrakes.pg" />
+    <None Include="Faults\FailureBrakes.pg.diagram">
       <DependentUpon>FailureBrakes.pg</DependentUpon>
     </None>
-    <None Include="FailureSMotor.pg" />
-    <None Include="FailureSMotor.pg.diagram">
+    <None Include="Faults\FailureSMotor.pg" />
+    <None Include="Faults\FailureSMotor.pg.diagram">
       <DependentUpon>FailureSMotor.pg</DependentUpon>
     </None>
-    <None Include="FaultHodometerPos.pg" />
-    <None Include="FaultHodometerPos.pg.diagram">
+    <None Include="Faults\FaultHodometerPos.pg" />
+    <None Include="Faults\FaultHodometerPos.pg.diagram">
       <DependentUpon>FaultHodometerPos.pg</DependentUpon>
     </None>
-    <None Include="FaultHodometerSpeed.pg" />
-    <None Include="FaultHodometerSpeed.pg.diagram">
+    <None Include="Faults\FaultHodometerSpeed.pg" />
+    <None Include="Faults\FaultHodometerSpeed.pg.diagram">
       <DependentUpon>FaultHodometerSpeed.pg</DependentUpon>
     </None>
-    <None Include="FaultSecured.pg" />
-    <None Include="FaultSecured.pg.diagram">
+    <None Include="Faults\FaultSecured.pg" />
+    <None Include="Faults\FaultSecured.pg.diagram">
       <DependentUpon>FaultSecured.pg</DependentUpon>
     </None>
-    <None Include="FaultSensor.pg" />
-    <None Include="FaultSensor.pg.diagram">
+    <None Include="Faults\FaultSensor.pg" />
+    <None Include="Faults\FaultSensor.pg.diagram">
       <DependentUpon>FaultSensor.pg</DependentUpon>
     </None>
-    <None Include="FaultTimer.pg" />
-    <None Include="FaultTimer.pg.diagram">
+    <None Include="Faults\FaultTimer.pg" />
+    <None Include="Faults\FaultTimer.pg.diagram">
       <DependentUpon>FaultTimer.pg</DependentUpon>
     </None>
-    <None Include="Hodometer.pg">
+    <None Include="Zug\Hodometer.pg">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Hodometer.pg.diagram">
+    <None Include="Zug\Hodometer.pg.diagram">
       <DependentUpon>Hodometer.pg</DependentUpon>
     </None>
-    <None Include="KommEinheitUebergang.pg" />
-    <None Include="KommEinheitUebergang.pg.diagram">
+    <None Include="Uebergang\KommEinheitUebergang.pg" />
+    <None Include="Uebergang\KommEinheitUebergang.pg.diagram">
       <DependentUpon>KommEinheitUebergang.pg</DependentUpon>
     </None>
-    <None Include="KommEinheitZug.pg" />
-    <None Include="KommEinheitZug.pg.diagram">
+    <None Include="Zug\KommEinheitZug.pg" />
+    <None Include="Zug\KommEinheitZug.pg.diagram">
       <DependentUpon>KommEinheitZug.pg</DependentUpon>
     </None>
     <None Include="NuSMV1.smv">
@@ -113,33 +113,33 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>NuSMV1.tt</DependentUpon>
     </None>
-    <None Include="SAnschlagssensor.pg" />
-    <None Include="SAnschlagssensor.pg.diagram">
+    <None Include="Uebergang\SAnschlagssensor.pg" />
+    <None Include="Uebergang\SAnschlagssensor.pg.diagram">
       <DependentUpon>SAnschlagssensor.pg</DependentUpon>
     </None>
-    <None Include="Schranke.pg" />
-    <None Include="Schranke.pg.diagram">
+    <None Include="Uebergang\Schranke.pg" />
+    <None Include="Uebergang\Schranke.pg.diagram">
       <DependentUpon>Schranke.pg</DependentUpon>
     </None>
-    <None Include="SMotor.pg" />
-    <None Include="SMotor.pg.diagram">
+    <None Include="Uebergang\SMotor.pg" />
+    <None Include="Uebergang\SMotor.pg.diagram">
       <DependentUpon>SMotor.pg</DependentUpon>
     </None>
-    <None Include="SUeberfahrtSensor.pg" />
-    <None Include="SUeberfahrtSensor.pg.diagram">
-      <DependentUpon>SUeberfahrtSensor.pg</DependentUpon>
+    <None Include="Uebergang\UeberfahrtSensor.pg" />
+    <None Include="Uebergang\UeberfahrtSensor.pg.diagram">
+      <DependentUpon>UeberfahrtSensor.pg</DependentUpon>
     </None>
-    <None Include="Timer.pg" />
-    <None Include="Timer.pg.diagram">
+    <None Include="Uebergang\Timer.pg" />
+    <None Include="Uebergang\Timer.pg.diagram">
       <DependentUpon>Timer.pg</DependentUpon>
     </None>
-    <None Include="Zug.pg" />
-    <None Include="Zug.pg.diagram">
+    <None Include="Zug\Zug.pg" />
+    <None Include="Zug\Zug.pg.diagram">
       <DependentUpon>Zug.pg</DependentUpon>
     </None>
-    <None Include="Zugnotbremse.pg" />
-    <None Include="Zugnotbremse.pg.diagram">
-      <DependentUpon>Zugnotbremse.pg</DependentUpon>
+    <None Include="Zug\Notbremse.pg" />
+    <None Include="Zug\Notbremse.pg.diagram">
+      <DependentUpon>Notbremse.pg</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>

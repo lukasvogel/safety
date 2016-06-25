@@ -10,10 +10,10 @@
     </initialNode>
     <state Id="da767dc0-2f1e-40b9-8d07-6683838d50c7" name="WarteAufAnfrage">
       <successors>
-        <transition Id="9075e04b-da8e-46f2-8eb8-4b3d40c4a1c9" guard="FaultSecured == FaultSecuredNo &amp;&amp;KanalZuUeb == BitteSichern" label="FaultSecured == FaultSecuredNo &amp;&amp;KanalZuUeb == BitteSichern">
+        <transition Id="9075e04b-da8e-46f2-8eb8-4b3d40c4a1c9" guard="FaultSecured == No &amp;&amp;KanalZuUeb == BitteSichern" label="FaultSecured == No &amp;&amp;KanalZuUeb == BitteSichern">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Sichere" />
         </transition>
-        <transition Id="3aba13ce-964a-4612-8380-72613f983de5" guard="FaultSecured != FaultSecuredNo &amp;&amp; KanalZuUeb == BitteSichern" label="FaultSecured != FaultSecuredNo &amp;&amp; KanalZuUeb == BitteSichern">
+        <transition Id="3aba13ce-964a-4612-8380-72613f983de5" guard="FaultSecured != No &amp;&amp; KanalZuUeb == BitteSichern" label="FaultSecured != No &amp;&amp; KanalZuUeb == BitteSichern">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Gesichert" />
         </transition>
       </successors>
@@ -27,7 +27,7 @@
     </state>
     <state Id="40053b9b-c1e8-4011-ad52-8dd881a88c9a" name="Gesichert">
       <successors>
-        <transition Id="f3d3c0f6-d447-439b-8ce3-0dd954a9890c" guard="SUeberfahrtSensor == UeberfahrtZu || Timer == TimerTriggered" label="SUeberfahrtSensor == UeberfahrtZu || Timer == TimerTriggered">
+        <transition Id="f3d3c0f6-d447-439b-8ce3-0dd954a9890c" guard="UeberfahrtSensor ==Zu || Timer == Triggered" label="UeberfahrtSensor ==Zu || Timer == Triggered">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Oeffne" />
         </transition>
         <transition Id="99bd771d-9879-401d-bae2-5639b4931e75" guard="KanalZuUeb == BitteUmBest" action="KanalZuZug := IstGesichert" label="KanalZuUeb == BitteUmBest // KanalZuZug := IstGesichert" precondition="true">
@@ -46,17 +46,17 @@
     <programGraphHasImportedVariables Id="ceaeadae-6155-4256-8a13-05417800f382">
       <importedVariable Id="b89a4872-b637-494c-9645-626e4deea8a3" name="KommEinheitZug.KanalZuUeb" range="BitteSichern, BitteUmBest, Nil" />
     </programGraphHasImportedVariables>
-    <programGraphHasImportedVariables Id="ff49a3f6-baa9-4c7d-9701-75b055da78a0">
-      <importedVariable Id="10d3474b-0038-4b2d-86ac-14acaa8b9e15" name="SUeberfahrtSensor" range="UeberfahrtOffen, UeberfahrtZu" />
-    </programGraphHasImportedVariables>
-    <programGraphHasImportedVariables Id="e9b524dd-72f4-421f-aeef-3f409f4e9f58">
-      <importedVariable Id="9ec24fcd-2bf7-4e9b-af37-8ffecd038e2f" name="SAnschlagssensor" range="SchrankeUnten, SchrankeOben, KeinKontakt" />
-    </programGraphHasImportedVariables>
     <programGraphHasImportedVariables Id="8b362351-9ae5-44db-b6cc-9dbdd25e5df9">
-      <importedVariable Id="0d2f4564-a04d-4fc7-af73-1786b1f3a360" name="Timer" range="TimerIdle, TimerCounting, TimerTriggered" />
+      <importedVariable Id="0d2f4564-a04d-4fc7-af73-1786b1f3a360" name="Timer" range="Idle, Countdown, Triggered" />
     </programGraphHasImportedVariables>
-    <programGraphHasImportedVariables Id="6261eeac-47fc-4c8b-b143-fb6b06fdfd3a">
-      <importedVariable Id="6ad69e0d-6121-47b8-af84-2a64bcfc648b" name="FaultSecured" range="FaultSecuredNo, FaultSecuredYes" />
+    <programGraphHasImportedVariables Id="b3e2bed9-941b-454c-9943-97308f8e331b">
+      <importedVariable Id="54ffc49f-73f4-4f23-ae4f-794083ea4331" name="FaultSecured" range="No, Yes" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="4beaad05-c2ef-440c-b334-0362715c9dfd">
+      <importedVariable Id="95ef6dcf-00e7-4493-a086-924360796fb4" name="UeberfahrtSensor" range="Offen, Zu" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="8c73ed1c-fb9e-47dd-bb5d-fbe25083eed7">
+      <importedVariable Id="6ab11567-e085-45ac-adfa-9af639df6b14" name="SAnschlagssensor" range="SchrankeUnten, SchrankeOben, KeinKontakt" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

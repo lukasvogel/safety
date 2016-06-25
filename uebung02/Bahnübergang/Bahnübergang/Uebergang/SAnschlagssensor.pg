@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="385c76ad-5ef8-4426-b73e-4d293578c006" name="SAnschlagssensor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="385c76ad-5ef8-4426-b73e-4d293578c006" name="SAnschlagssensor" type="Sensor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
   <states>
     <initialNode Id="b2977bf2-396c-450d-84b7-2ab6671663d7" name="InitialNode1">
       <successors>

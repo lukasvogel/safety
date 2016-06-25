@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="60c03839-7664-4ca9-b1a0-7a61c8d5f657" name="UeberfahrtSensor" type="Sensor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+  <states>
+    <initialNode Id="1ba51dc5-1ab5-4fbd-9d7f-11401822e470" name="InitialNode1">
+      <successors>
+        <transition Id="fe28871a-5996-484d-b2a4-9facdb77c37d">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/Offen" />
+        </transition>
+      </successors>
+    </initialNode>
+    <state Id="594273a6-9eac-4269-8aeb-a65ca9b7ce0d" name="Offen">
+      <successors>
+        <transition Id="7c748f1d-e856-4673-90dd-8db29a00d6d6" guard="Position &gt;= SP &amp;&amp; Position &lt;= SP + 10" label="Position &gt;= SP &amp;&amp; Position &lt;= SP + 10">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/Zu" />
+        </transition>
+        <transition Id="9019b7d9-aea2-419d-bc09-e92b5c4b6909" guard="FaultSensor != No" label="FaultSensor != No">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/Zu" />
+        </transition>
+      </successors>
+    </state>
+    <state Id="4ee37f71-dad1-4ca8-90d7-3e041b885537" name="Zu">
+      <successors>
+        <transition Id="02b62ef2-b6f6-4f5b-a67a-b9601e70467a" guard="FaultSensor == No &amp;&amp;Position &lt; SP" label="FaultSensor == No &amp;&amp;Position &lt; SP">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/Offen" />
+        </transition>
+        <transition Id="c67e9285-cfc6-404f-8953-e5a87401a2bd" guard="FaultSensor != No" label="FaultSensor != No">
+          <stateMoniker name="/60c03839-7664-4ca9-b1a0-7a61c8d5f657/Zu" />
+        </transition>
+      </successors>
+    </state>
+  </states>
+  <macros>
+    <programGraphHasMacros Id="64fe7bc8-fed5-4676-9ffd-3e3343478ba4">
+      <macro Id="94eb1173-2a70-41e0-9458-01dd35c02dd4" name="SP" body="100" />
+    </programGraphHasMacros>
+  </macros>
+  <importedVariables>
+    <programGraphHasImportedVariables Id="83308648-31e5-407c-9c1e-89f2388de86d">
+      <importedVariable Id="8a970c2a-434f-449c-b732-1ae989e9c905" name="Zug.Position" range="0..120" />
+    </programGraphHasImportedVariables>
+    <programGraphHasImportedVariables Id="b26e9abe-2f04-43b0-a00f-0153d0301829">
+      <importedVariable Id="30c3a790-c98e-4b89-8891-25bd19fedef5" name="FaultSensor" range="No, Yes" />
+    </programGraphHasImportedVariables>
+  </importedVariables>
+</programGraph>

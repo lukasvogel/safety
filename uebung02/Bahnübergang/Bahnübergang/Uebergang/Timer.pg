@@ -1,34 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="d27370fd-ecae-403a-919a-eb8ebf1e6225" name="Timer" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
+<programGraph xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="d27370fd-ecae-403a-919a-eb8ebf1e6225" name="Timer" type="Sensor" xmlns="http://schemas.microsoft.com/dsltools/ProgramGraphDsl">
   <states>
-    <state Id="cfd6d170-4f60-45c6-a211-2242d413e6ba" name="TimerIdle">
+    <state Id="cfd6d170-4f60-45c6-a211-2242d413e6ba" name="Idle">
       <successors>
         <transition Id="d41d7c21-6d9d-4fe0-8b25-22982528505b" guard="KommEinheitUebergang == Gesichert" label="KommEinheitUebergang == Gesichert">
-          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerCounting" />
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/Countdown" />
         </transition>
       </successors>
     </state>
-    <state Id="bcd86a33-1c00-4121-8ddd-aeec8a1a6919" name="TimerCounting">
+    <state Id="bcd86a33-1c00-4121-8ddd-aeec8a1a6919" name="Countdown">
       <successors>
         <transition Id="2356b1c3-0bc4-430c-a253-ddc0b6847422" guard="KommEinheitUebergang == Gesichert" action="Countdown := Countdown -1" label="KommEinheitUebergang == Gesichert // Countdown := Countdown -1" precondition="Countdown &gt; 0">
-          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerCounting" />
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/Countdown" />
         </transition>
         <transition Id="1c9cabcd-e45e-4d4f-84d3-30e930668da5" guard="Countdown == 0" label="Countdown == 0">
-          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerTriggered" />
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/Triggered" />
         </transition>
         <transition Id="10abe30f-eb64-4ca2-8cb7-d361592ebbca" guard="KommEinheitUebergang == Oeffne" action="Countdown := 20" label="KommEinheitUebergang == Oeffne // Countdown := 20" precondition="true">
-          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerIdle" />
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/Idle" />
         </transition>
-        <transition Id="d95a733d-a546-4e3a-a15f-f3d86c0b7815" guard="FaultTimer != FaultTimerNo" label="FaultTimer != FaultTimerNo">
-          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerTriggered" />
+        <transition Id="d95a733d-a546-4e3a-a15f-f3d86c0b7815" guard="FaultTimer != No" label="FaultTimer != No">
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/Triggered" />
         </transition>
       </successors>
     </state>
-    <state Id="e5dee829-e8b8-4da3-82e1-186e29ee3c08" name="TimerTriggered" />
+    <state Id="e5dee829-e8b8-4da3-82e1-186e29ee3c08" name="Triggered" />
     <initialNode Id="bab7354d-a6f3-4094-bdd5-5f357f823cc5" name="InitialNode1">
       <successors>
         <transition Id="5ba1fae6-1970-439f-a0a8-584c25e6268a" guard="Countdown == 20" label="Countdown == 20">
-          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/TimerIdle" />
+          <stateMoniker name="/d27370fd-ecae-403a-919a-eb8ebf1e6225/Idle" />
         </transition>
       </successors>
     </initialNode>
@@ -42,8 +42,8 @@
     <programGraphHasImportedVariables Id="dcb7201d-2844-4b99-b772-39c9e2a8836e">
       <importedVariable Id="44171b0f-761b-4f0a-b253-565d4d3dcc68" name="KommEinheitUebergang" range="WarteAufAnfrage, Sichere, Gesichert, Oeffne" />
     </programGraphHasImportedVariables>
-    <programGraphHasImportedVariables Id="2384e205-5ba4-45ac-9cb5-35584beeae3a">
-      <importedVariable Id="98007efc-2cbf-4bc5-9297-859f6c12c65b" name="FaultTimer" range="FaultTimerNo, FaultTimerYes" />
+    <programGraphHasImportedVariables Id="a73e22bf-d40c-4f5a-9df6-18957e6a505e">
+      <importedVariable Id="6df18428-abdb-495e-8947-b737d6814a30" name="FaultTimer" range="No, Yes" />
     </programGraphHasImportedVariables>
   </importedVariables>
 </programGraph>

@@ -8,7 +8,7 @@
     <stateShape Id="b90f098e-dc58-4487-98c9-4c52944fd447" absoluteBounds="5.875, 2.125, 1, 0.5">
       <stateMoniker name="/be0a7e17-630b-4fe8-967e-1956af31b456/Existiere" />
     </stateShape>
-    <transitionConnector Id="9e22d71b-0ac3-4c1f-b0e9-e5bd41c80030" edgePoints="[(6.3125 : 1.375); (6.3125 : 2.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <transitionConnector Id="9e22d71b-0ac3-4c1f-b0e9-e5bd41c80030" edgePoints="[(6.3125 : 1.375); (6.3125 : 2.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="fe955d3c-5360-4bc5-be98-af25089816e7" />
       <relativeChildShapes />
       <nodes>

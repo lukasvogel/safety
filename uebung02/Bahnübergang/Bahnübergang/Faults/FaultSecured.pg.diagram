@@ -3,15 +3,15 @@
   <programGraphMoniker Id="357d9bee-db4c-4b23-9eeb-dd11404b3948" />
   <nestedChildShapes>
     <stateShape Id="56412627-aaf7-4293-8340-d6e555feb4f1" absoluteBounds="3.75, 3.875, 1, 0.5">
-      <stateMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/FaultSecuredNo" />
+      <stateMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/No" />
     </stateShape>
     <stateShape Id="ff9e1927-45f0-4901-aeb9-d4ded114cdec" absoluteBounds="5.875, 3.875, 1, 0.5">
-      <stateMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/FaultSecuredYes" />
+      <stateMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/Yes" />
     </stateShape>
     <initialStateShape Id="19aa7029-d9be-41ba-80f8-58bc628cd4a0" absoluteBounds="4, 2.625, 0.125, 0.125">
       <initialNodeMoniker name="/357d9bee-db4c-4b23-9eeb-dd11404b3948/InitialNode1" />
     </initialStateShape>
-    <transitionConnector Id="a5bf90ad-a7d3-4eb5-a6c8-90a503288e03" edgePoints="[(4.75 : 4.125); (5.875 : 4.125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <transitionConnector Id="a5bf90ad-a7d3-4eb5-a6c8-90a503288e03" edgePoints="[(4.75 : 4.125); (5.875 : 4.125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="15680b88-0aa8-4665-8068-2095b30f780d" />
       <relativeChildShapes />
       <nodes>
@@ -19,7 +19,7 @@
         <stateShapeMoniker Id="ff9e1927-45f0-4901-aeb9-d4ded114cdec" />
       </nodes>
     </transitionConnector>
-    <transitionConnector Id="ec935e5f-d25a-4fbf-90ea-efb1eb22b86b" edgePoints="[(4.0625 : 2.75); (4.0625 : 3.875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <transitionConnector Id="ec935e5f-d25a-4fbf-90ea-efb1eb22b86b" edgePoints="[(4.0625 : 2.75); (4.0625 : 3.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <transitionMoniker Id="26439bef-b044-404c-8a5e-27c464538cb4" />
       <relativeChildShapes />
       <nodes>
