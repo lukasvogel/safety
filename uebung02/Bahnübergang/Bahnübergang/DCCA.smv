@@ -83,13 +83,13 @@ MODULE _P_KommEinheitUebergang(v)
 	INIT
 		(v.V_KommEinheitUebergang = L_WarteAufAnfrage) & ((v.V_KanalZuZug = L_Nil))
 	TRANS
-		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & ((v.V_FaultSecured = L_No) & (v.V_KanalZuUeb = L_BitteSichern)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Gesichert & ((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteSichern)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & (v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & ((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Oeffne & ((v.V_UeberfahrtSensor = L_Zu) | (v.V_Timer = L_Triggered)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_KanalZuUeb = L_BitteUmBest) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
-		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & (!((v.V_FaultSecured = L_No) & (v.V_KanalZuUeb = L_BitteSichern)) & !((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteSichern))) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & !(v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & !(v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & (!(v.V_SAnschlagssensor = L_SchrankeUnten) & !((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteUmBest))) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (!((v.V_UeberfahrtSensor = L_Zu) | (v.V_Timer = L_Triggered)) & !(v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Oeffne & next(v.V_KommEinheitUebergang) = L_Oeffne & TRUE & (next(v.V_KanalZuZug) = v.V_KanalZuZug));
 MODULE _P_SAnschlagssensor(v)
@@ -211,9 +211,9 @@ MODULE main
 
 DEFINE noFaults := v.V_FailureBrakes = L_No
 				 & v.V_FailureSMotor = L_No
+				 & v.V_FaultSecured = L_No
 				 & v.V_FaultHodometerPos = L_No
 				 & v.V_FaultHodometerSpeed = L_No
-				 & v.V_FaultSecured = L_No
 				 & v.V_FaultSensor = L_No
 				 & v.V_FaultTimer = L_No;
 
@@ -236,14 +236,6 @@ DEFINE onlyFaultHodoSpeed := v.V_FailureBrakes = L_No
 				 & v.V_FailureSMotor = L_No
 				 & v.V_FaultHodometerPos = L_No
 				 & v.V_FaultSecured = L_No
-				 & v.V_FaultSensor = L_No
-				 & v.V_FaultTimer = L_No;
-
--- {FaultSecured}
-DEFINE onlyFaultSecured := v.V_FailureBrakes = L_No
-				 & v.V_FailureSMotor = L_No
-				 & v.V_FaultHodometerPos = L_No
-				 & v.V_FaultHodometerSpeed = L_No
 				 & v.V_FaultSensor = L_No
 				 & v.V_FaultTimer = L_No;
 
@@ -271,12 +263,19 @@ DEFINE failureBrakesAndSMotor :=
 				 & v.V_FaultSensor = L_No
 				 & v.V_FaultTimer = L_No;
 
+-- {FaultSecured, FailureSMotor}
+DEFINE failureSecuredAndSMotor := 
+				   v.V_FailureBrakes = L_No
+				 & v.V_FaultHodometerPos = L_No
+				 & v.V_FaultHodometerSpeed = L_No
+				 & v.V_FaultSensor = L_No
+				 & v.V_FaultTimer = L_No;
+
 
 -- Sanity check: Ohne faults geht alles gut!
 LTLSPEC !(noFaults U hazard);
 
 -- Single points of failure reichen um alles kaputt zu machen
-LTLSPEC !(onlyFaultSecured U hazard);
 LTLSPEC !(onlyFaultSensor U hazard);
 LTLSPEC !(onlyFaultTimer U hazard);
 LTLSPEC !(onlyFaultHodoPos U hazard);
@@ -284,3 +283,6 @@ LTLSPEC !(onlyFaultHodoSpeed U hazard);
 
 -- FailureBrakes und FailureSMotor m?ssen zusammen auftreten
 LTLSPEC !(failureBrakesAndSMotor U hazard);
+
+-- FaultSecured und FailureSMotor m?ssen zusammen auftreten
+LTLSPEC !(failureSecuredAndSMotor U hazard);

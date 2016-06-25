@@ -83,13 +83,13 @@ MODULE _P_KommEinheitUebergang(v)
 	INIT
 		(v.V_KommEinheitUebergang = L_WarteAufAnfrage) & ((v.V_KanalZuZug = L_Nil))
 	TRANS
-		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & ((v.V_FaultSecured = L_No) & (v.V_KanalZuUeb = L_BitteSichern)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Gesichert & ((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteSichern)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & (v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & ((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Oeffne & ((v.V_UeberfahrtSensor = L_Zu) | (v.V_Timer = L_Triggered)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_KanalZuUeb = L_BitteUmBest) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
-		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & (!((v.V_FaultSecured = L_No) & (v.V_KanalZuUeb = L_BitteSichern)) & !((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteSichern))) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & !(v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & !(v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & (!(v.V_SAnschlagssensor = L_SchrankeUnten) & !((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteUmBest))) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (!((v.V_UeberfahrtSensor = L_Zu) | (v.V_Timer = L_Triggered)) & !(v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Oeffne & next(v.V_KommEinheitUebergang) = L_Oeffne & TRUE & (next(v.V_KanalZuZug) = v.V_KanalZuZug));
 MODULE _P_SAnschlagssensor(v)
@@ -279,16 +279,22 @@ LTLSPEC (G noFaults) -> (G (v.V_Notbremse = L_Ein -> (F v.V_Geschwindigkeit = 0)
 
 --- FaultHodometerPos
 -- Wenn die Positionsbestimmung des Hodometers fehlschl?gt, ist danach die tats?chliche Position gr??er als die gemeldete
-LTLSPEC (F v.V_FaultHodometerPos != L_No) -> F (v.V_Position > v.V_ReportedPosition);
+LTLSPEC G ((v.V_FaultHodometerPos != L_No & v.V_Position < 100) -> X (v.V_Position > v.V_ReportedPosition));
 
 --- FaultHodometerSpeed
 -- Wenn die Geschwindigkeitsanzeige falsche Werte liefert, ist die gemessene Geschwindigkeit im n?chsten Schritt immer 1
 LTLSPEC G (v.V_FaultHodometerSpeed != L_No & v.V_Position <= 115 -> X v.V_ReportedSpeed = 1)
 
 --- FailureSMotor
--- Wenn der Schrankenmotor versagt, w?hrend sie offen ist, geht sie nie zu
+-- Wenn der Schrankenmotor versagt, w?hrend die Schranke offen ist, geht sie nie zu
 LTLSPEC (v.V_SchrankenWinkel = 90 U v.V_FailureSMotor != L_No) -> G v.V_SchrankenWinkel != 0;
 
 -- FailureBreaks
 -- Wenn die Bremsen irgendwann versagen w?hrend der Zug f?hrt, h?lt der Zug niemals an
 LTLSPEC (F v.V_FailureBrakes != L_No & G v.V_Geschwindigkeit > 0) -> G v.V_Geschwindigkeit != 0;
+
+
+-- FaultSensor
+-- FaultTimer
+-- Es gibt einen Pfad
+-- FaultSecured

@@ -8,9 +8,9 @@
 
 DEFINE noFaults := v.V_FailureBrakes = L_No
 				 & v.V_FailureSMotor = L_No
+				 & v.V_FaultSecured = L_No
 				 & v.V_FaultHodometerPos = L_No
 				 & v.V_FaultHodometerSpeed = L_No
-				 & v.V_FaultSecured = L_No
 				 & v.V_FaultSensor = L_No
 				 & v.V_FaultTimer = L_No;
 
@@ -33,14 +33,6 @@ DEFINE onlyFaultHodoSpeed := v.V_FailureBrakes = L_No
 				 & v.V_FailureSMotor = L_No
 				 & v.V_FaultHodometerPos = L_No
 				 & v.V_FaultSecured = L_No
-				 & v.V_FaultSensor = L_No
-				 & v.V_FaultTimer = L_No;
-
--- {FaultSecured}
-DEFINE onlyFaultSecured := v.V_FailureBrakes = L_No
-				 & v.V_FailureSMotor = L_No
-				 & v.V_FaultHodometerPos = L_No
-				 & v.V_FaultHodometerSpeed = L_No
 				 & v.V_FaultSensor = L_No
 				 & v.V_FaultTimer = L_No;
 
@@ -68,12 +60,19 @@ DEFINE failureBrakesAndSMotor :=
 				 & v.V_FaultSensor = L_No
 				 & v.V_FaultTimer = L_No;
 
+-- {FaultSecured, FailureSMotor}
+DEFINE failureSecuredAndSMotor := 
+				   v.V_FailureBrakes = L_No
+				 & v.V_FaultHodometerPos = L_No
+				 & v.V_FaultHodometerSpeed = L_No
+				 & v.V_FaultSensor = L_No
+				 & v.V_FaultTimer = L_No;
+
 
 -- Sanity check: Ohne faults geht alles gut!
 LTLSPEC !(noFaults U hazard);
 
 -- Single points of failure reichen um alles kaputt zu machen
-LTLSPEC !(onlyFaultSecured U hazard);
 LTLSPEC !(onlyFaultSensor U hazard);
 LTLSPEC !(onlyFaultTimer U hazard);
 LTLSPEC !(onlyFaultHodoPos U hazard);
@@ -81,3 +80,6 @@ LTLSPEC !(onlyFaultHodoSpeed U hazard);
 
 -- FailureBrakes und FailureSMotor müssen zusammen auftreten
 LTLSPEC !(failureBrakesAndSMotor U hazard);
+
+-- FaultSecured und FailureSMotor müssen zusammen auftreten
+LTLSPEC !(failureSecuredAndSMotor U hazard);
