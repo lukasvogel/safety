@@ -1,0 +1,172 @@
+//-------------------------------------------------------------------------------------------------------
+//-- Globals
+//-------------------------------------------------------------------------------------------------------
+	const int FillTimeout = 60;
+	const int Timeout = FillTimeout + 4;
+	const int RuptureTime = 5;
+	const int DrainTime = 10;
+
+	const double fk1prob = 0.00003;
+	const double fk2prob = 0.00003;
+	const double fsprob = 0.0001;
+	const double ftprob = 0.0001;
+	const double fs1prob = 0.00003;
+
+	//const double fk1prob = 0;
+	//const double fk2prob = 0;
+	//const double fsprob = 0;
+	//const double ftprob = 0;
+	//const double fs1prob = 0;
+
+//dtmc module main
+		//v : _VARS;
+		//s1 : _S1(v);
+		//k1 : _K1(v);
+		//k2 : _K2(v);
+		//m : _M(v);
+		//d : _D(v);
+		//s : _S(v);
+		//t : _T(v);
+		//fs1 : TransientFault(v.fs1);
+		//fk1 : PersistentFault(v.fk1);
+		//fk2 : PersistentFault(v.fk2);
+		//ft : PersistentFault(v.ft);
+		//fs : PersistentFault(v.fs);
+		
+		
+//endmodule
+//-------------------------------------------------------------------------------------------------------
+//-- S1
+//-------------------------------------------------------------------------------------------------------
+dtmc module _S1
+
+	S1 : [0..2] init 0; //Start, Closed, Open
+
+	[start] S1 = 0 -> 	1.0 : (S1' = 1);
+	[synch] (S1 = 2 & fs1) -> 1.0 : (S1' = 1);
+	[synch] (S1 = 1 & !fs1) -> 1.0 : (S1' = 2);
+
+	//else
+	[synch] (S1 = 2 & !fs1) -> true;
+	[synch] (S1 = 1 & fs1) -> true;
+endmodule 	
+//-------------------------------------------------------------------------------------------------------
+//-- T
+//-------------------------------------------------------------------------------------------------------
+module _T
+	T0 : [0..2] init 0; //Closed, Open, Countdown 
+	t : [0..Timeout] init 0;  
+
+	[synch] (T0 = 0 & S0 & (S1 = 1 |K1)) -> (T0' = 2) & (t' = 0);
+	[synch] (T0 = 2 & (!S0 | (S1 != 1 & !K1))) -> (T0' = 0) & (t' = t);
+	[synch] (T0 = 2 & t < Timeout & !(!S0 | (S1 != 1 & !K1))) -> (T0' = 2) & (t' = t + 1);
+	[synch] (T0 = 2 & t = Timeout & !ft & !(!S0 | (S1 != 1 & !K1))) -> (T0' = 1) & (t' = t);
+	[synch] (T0 = 2 & t = Timeout & ft & !(!S0 | (S1 != 1 & !K1)) ) -> (T0' = 0) & (t' = t);
+	[synch] (T0 = 1 & (!S0 |(S1 != 1 & !K1))) -> (T0' = 1) & (t' = t);
+
+	//else
+	[synch] (T0 = 1 & !(!S0 |(S1 != 1 & !K1))) -> true;
+	[synch] (T0 = 0 & !(S0 & (S1 = 1 |K1))) -> true;
+endmodule
+	
+//-------------------------------------------------------------------------------------------------------
+//-- K1
+//-------------------------------------------------------------------------------------------------------
+module _K1
+	K1 : bool init false; //true: Closed, false: Open
+
+	[synch] (K1 & T0 = 1 & !fk1) -> (K1' = false);
+	[synch] (!K1 & T0 != 1 & S1 = 1) -> (K1' = true);
+	//else
+	[synch] !( (K1 & T0 = 1 & !fk1) | (!K1 & T0 != 1 & S1 = 1) ) -> true;
+
+endmodule			
+//-------------------------------------------------------------------------------------------------------
+//-- K2
+//-------------------------------------------------------------------------------------------------------
+module _K2
+
+	K2 : bool init false; //true: Closed, false: Open  
+
+	[synch] (K2 & (!S0 | (S1 != 1 & !K1)) & !fk2) -> (K2' = false); 
+	[synch] (!K2 & (S0 & (S1 = 1 | K1))) -> (K2' = true);
+	//else
+	[synch]  !( (K2 & (!S0 | (S1 != 1 & !K1)) & !fk2)  | (!K2 & (S0 & (S1 = 1 | K1))) ) -> true;
+
+endmodule
+
+//-------------------------------------------------------------------------------------------------------
+//-- M
+//-------------------------------------------------------------------------------------------------------
+module _M
+	M : bool init false; //true: On, false: Off 
+
+	[synch] (!M & K2) -> (M' = true);
+	[synch] (M & !K2) -> (M' = false);
+	//else
+	[synch] !( (!M & K2) | (M & !K2)) -> true;
+
+endmodule
+			
+//-------------------------------------------------------------------------------------------------------
+//-- S
+//-------------------------------------------------------------------------------------------------------
+module _S
+	S0 : bool init true; //true: Closed, false: Open
+
+	[synch] (S0 & D = 2 & !fs) -> (S0' = false);
+	[synch] (!S0 & D = 0) -> (S0' = true);
+	//else
+	[synch] ! ( (S0 & D = 2 & !fs) | (!S0 & D = 0) ) -> (S0' = S0);
+
+endmodule
+			
+//-------------------------------------------------------------------------------------------------------
+//-- D
+//-------------------------------------------------------------------------------------------------------
+module _D
+
+	D : [0..4] init 0; //Empty, Filling, Filled, Ruptured, Draining
+	f : [0..FillTimeout] init 0;
+	//Empty, Filling, Filled, Ruptured, Draining
+	[synch] (D = 0 & M) -> (D' = 1) & (f' = 0);
+	[synch] (D = 1 & M & f < FillTimeout) -> (D' = 1) & (f' = f + 1);
+	[synch] (D = 1 & M & f = FillTimeout) -> (D' = 2) & (f' = 0);
+	[synch] (D = 2 & !M) -> (D' = 4) & (f' = 0);
+	[synch] (D = 4 & !M & f < DrainTime) -> (D' = 4) & (f' = f + 1);
+	[synch] (D = 4 & !M & f = DrainTime) -> (D' = 0) & (f' = f);
+	[synch] (D = 2 & M & f < RuptureTime) -> (D' = 2) & (f' = f + 1);			
+	[synch] (D = 2 & M & f = RuptureTime) -> (D' = 3) & (f' = f);		
+	
+	//else 
+	[synch] (D = 0 & !M) -> true;
+	[synch] (D = 1 & !M) -> true;
+	[synch] (D = 4 & M) -> true;
+	[synch] (D = 3 ) -> true;
+
+endmodule
+
+//-------------------------------------------------------------------------------------------------------
+//-- TRANSIENT FAULT
+//-------------------------------------------------------------------------------------------------------
+//dtmc 
+
+// endmodule
+
+//-------------------------------------------------------------------------------------------------------
+//-- PERSISTENT FAULT
+//-------------------------------------------------------------------------------------------------------
+module PersistentFaultFK1
+	fk1 : bool init false; //Yes, No
+
+	[start] !fk1 -> 	fk1prob : (fk1' = true) + 
+				1 - fk1prob : (fk1' = false);
+
+	[start] fk1 -> true;
+
+endmodule
+
+module PersistentFaultFK2 = PersistentFaultFK1 [fk1 = fk2, fk1prob = fk2prob] endmodule
+module PersistentFaultFT = PersistentFaultFK1 [fk1 = ft, fk1prob = ftprob] endmodule
+module PersistentFaultFS = PersistentFaultFK1 [fk1 = fs, fk1prob = fsprob] endmodule
+module PersistentFaultFS1 = PersistentFaultFK1 [fk1 = fs1, fk1prob = fs1prob] endmodule
