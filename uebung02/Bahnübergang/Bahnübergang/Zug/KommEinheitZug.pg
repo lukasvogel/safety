@@ -23,7 +23,7 @@
         <transition Id="5ce3709e-db49-47ca-8403-b5be68965372" guard="ReportedPosition &gt;= BEP &amp;&amp; KanalZuZug != IstGesichert" label="ReportedPosition &gt;= BEP &amp;&amp; KanalZuZug != IstGesichert">
           <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/KeineBestErhalten" />
         </transition>
-        <transition Id="0aa22167-17e8-489f-98b2-c7e904eb3cef" guard="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt;= BEP &amp;&amp; KanalZuZug == IstGesichert // KanalZuUeb := Nil" precondition="true">
+        <transition Id="0aa22167-17e8-489f-98b2-c7e904eb3cef" guard="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt; BEP &amp;&amp; KanalZuZug == IstGesichert" action="KanalZuUeb := Nil" label="ReportedPosition &gt;= AP &amp;&amp; ReportedPosition &lt; BEP &amp;&amp; KanalZuZug == IstGesichert // KanalZuUeb := Nil" precondition="true">
           <stateMoniker name="/5f94632b-5b94-4c1f-ada0-70daa72218d2/BestErhalten" />
         </transition>
       </successors>

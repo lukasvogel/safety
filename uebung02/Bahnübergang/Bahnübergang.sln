@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bahnübergang", "Bahnübergang\Bahnübergang.csproj", "{6291AB35-ACBC-438A-B642-C8D9D0CBE45D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSharpÜbergang", "SSharpÜbergang\SSharpÜbergang.csproj", "{6FE3A807-384F-4EAB-A87A-183B4C29A785}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{6291AB35-ACBC-438A-B642-C8D9D0CBE45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6291AB35-ACBC-438A-B642-C8D9D0CBE45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6291AB35-ACBC-438A-B642-C8D9D0CBE45D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FE3A807-384F-4EAB-A87A-183B4C29A785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FE3A807-384F-4EAB-A87A-183B4C29A785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FE3A807-384F-4EAB-A87A-183B4C29A785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FE3A807-384F-4EAB-A87A-183B4C29A785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
