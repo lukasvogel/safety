@@ -11,9 +11,10 @@ namespace SSharpÜbergang.Shared
     class RadioModule : Component
     {
 
-        public extern CommChannel Channel { get; }
+        public extern CommChannel SendChannel { get; }
+        public extern CommChannel RecvChannel { get; }
 
-        public Message Receive() => Channel.Receive();
-        public void Send(Message m) => Channel.Send(m);
+        public Message Receive() => RecvChannel.Receive();
+        public void Send(Message m) => SendChannel.Send(m);
     }
 }

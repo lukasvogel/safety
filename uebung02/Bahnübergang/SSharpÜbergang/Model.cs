@@ -32,8 +32,13 @@ namespace SSharpÜbergang
             Bind(nameof(tc.Odometer.Position), nameof(train.Position));
             Bind(nameof(tc.Odometer.Speed), nameof(train.Speed));
 
-            // Bind the communication channel
-            Bind(nameof(tc.RadioModule.Channel), nameof(commChannel.DownChannel));
+            // Bind the communication channels
+            Bind(nameof(tc.RadioModule.SendChannel), nameof(commChannel.DownChannel));
+            Bind(nameof(tc.RadioModule.RecvChannel), nameof(commChannel.UpChannel));
+
+            // Bind the emergency brakes to the train
+            Bind(nameof(train.Acceleration), nameof(tc.Brakes.Acceleration));
+
         }
     }
 }

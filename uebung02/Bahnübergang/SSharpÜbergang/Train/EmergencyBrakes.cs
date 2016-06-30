@@ -6,10 +6,10 @@ namespace SSharpÜbergang.Train
     {
 
 
-        const int MAX_BRAKE_DECEL = -1;
+        const int MAX_BRAKE_DECEL = -5;
 
         [Range(MAX_BRAKE_DECEL,0, OverflowBehavior.Clamp)]
-        public virtual int Acceleration { get; private set; }
+        public virtual int Acceleration { get; }
 
 
         public readonly Fault FailingBrakes = new PermanentFault();

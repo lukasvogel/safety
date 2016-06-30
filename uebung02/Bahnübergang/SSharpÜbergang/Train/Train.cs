@@ -13,12 +13,15 @@
         [Range(START_POSITION,END_POSITION,OverflowBehavior.Clamp)]
         public int Position { get; private set; }
 
-        [Range(0,MAX_SPEED,OverflowBehavior.Clamp)]
-        public int Speed { get; }
+        [Range(0, MAX_SPEED, OverflowBehavior.Clamp)]
+        public int Speed { get; private set; } = MAX_SPEED;
+
+        public extern int Acceleration { get; }
 
         public override void Update()
         {
             Position += Speed;
+            Speed += Acceleration;
         }
     }
 }
