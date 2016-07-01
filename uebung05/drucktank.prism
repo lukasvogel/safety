@@ -40,9 +40,12 @@
 //-------------------------------------------------------------------------------------------------------
 dtmc module _S1
 
-	S1 : [0..2] init 0; //Start, Closed, Open
+	//S1 : [0..2] init 0; //Start, Closed, Open
+	S1 : [0..3] init 3; //Start, Closed, Open, Start Pseduo State
+	[start] S1 = 3 -> (S1' = 0);
 
-	[start] S1 = 0 -> 	1.0 : (S1' = 1);
+	[synch] S1 = 0 -> 	0.5 : (S1' = 1)
+				+ 0.5: (S1' = 0);
 	[synch] (S1 = 2 & fs1) -> 1.0 : (S1' = 1);
 	[synch] (S1 = 1 & !fs1) -> 1.0 : (S1' = 2);
 
@@ -151,6 +154,16 @@ endmodule
 //-------------------------------------------------------------------------------------------------------
 //dtmc 
 
+module TransientFaultFs1
+	fs1 : bool init false; //Yes, No
+
+	[synch] !fs1 -> 	fs1prob : (fs1' = true) + 
+				1 - fs1prob : (fs1' = false);
+
+	[synch] fs1 -> 1 - fs1prob: (fs1' = true) +
+			fs1prob: (fs1' = false);
+
+endmodule
 // endmodule
 
 //-------------------------------------------------------------------------------------------------------
@@ -159,14 +172,13 @@ endmodule
 module PersistentFaultFK1
 	fk1 : bool init false; //Yes, No
 
-	[start] !fk1 -> 	fk1prob : (fk1' = true) + 
+	[synch] !fk1 -> 	fk1prob : (fk1' = true) + 
 				1 - fk1prob : (fk1' = false);
 
-	[start] fk1 -> true;
+	[synch] fk1 -> true;
 
 endmodule
 
 module PersistentFaultFK2 = PersistentFaultFK1 [fk1 = fk2, fk1prob = fk2prob] endmodule
 module PersistentFaultFT = PersistentFaultFK1 [fk1 = ft, fk1prob = ftprob] endmodule
 module PersistentFaultFS = PersistentFaultFK1 [fk1 = fs, fk1prob = fsprob] endmodule
-module PersistentFaultFS1 = PersistentFaultFK1 [fk1 = fs1, fk1prob = fs1prob] endmodule

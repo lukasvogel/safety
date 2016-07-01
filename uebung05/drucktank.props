@@ -1,0 +1,6 @@
+const int Time;
+
+P=? [ true U D=3 ]
+
+P=? [ (true) U<Time (D=3) ]
+
