@@ -8,6 +8,10 @@
 *.toc
 *.fmt
 
+## Tools
+prism*/
+NuSMV*/
+
 ## Intermediate documents:
 *.dvi
 *-converted-to.*
