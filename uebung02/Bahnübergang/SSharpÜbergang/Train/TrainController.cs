@@ -1,6 +1,7 @@
 ﻿using SafetySharp.Modeling;
 using SSharpÜbergang.Environment;
 using SSharpÜbergang.Shared;
+using static SSharpÜbergang.Shared.Globals;
 
 namespace SSharpÜbergang.Train
 {
@@ -10,13 +11,9 @@ namespace SSharpÜbergang.Train
         [Hidden, Subcomponent] public Odometer Odometer;
         [Hidden, Subcomponent] public RadioModule RadioModule;
 
-        private readonly StateMachine<State> _myState = State.Idle;
+        private  StateMachine<State> _myState = State.Idle;
 
-        private int EP = 10;
-        private int AP = 30;
-        private int BEP = 80;
-        private int GP = 95;
-        private int SP = 100;
+        public bool ShouldBreak => _myState.State == State.NoConfirmReceived;
 
         public override void Update()
         {

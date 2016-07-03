@@ -39,6 +39,9 @@ namespace SSharpÜbergang
             // Bind the emergency brakes to the train
             Bind(nameof(train.Acceleration), nameof(tc.Brakes.Acceleration));
 
+            // Bind controller to breaks
+            Bind(nameof(EmergencyBrakes.ShouldBreak), nameof(tc.ShouldBreak));
+
         }
     }
 }
