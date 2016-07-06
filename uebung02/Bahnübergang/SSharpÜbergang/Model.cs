@@ -84,20 +84,23 @@ namespace SSharpÜbergang
 
         }
 
-        public Formula Hazard => train.Position >= Globals.GP && !cc.isSecured;
+        public Formula Hazard => train.Position >= Globals.GP && cc.Motor.Angle != 0 && train.Position <= Globals.SP;
         
         public static void Main()
         {
             var m = new Model();
 
-            var results = ModelChecker.CheckInvariant(m, !m.Hazard);
-            Console.WriteLine($"No Collision: { results.FormulaHolds}");
-
-            PrintCounterExample(results.CounterExample);
+            //PrintCounterExample(results.CounterExample);
 
             //DCCA
             var safetyRestul = SafetyAnalysis.AnalyzeHazard(m, m.Hazard);
             Console.WriteLine(safetyRestul);
+
+            //foreach (var x in safetyRestul.CounterExamples)
+            //{
+            //    Console.WriteLine($"Counter ex {x.Key}:");
+            //    PrintCounterExample(x.Value);
+            //}
 
             Console.ReadLine();
         }
@@ -121,6 +124,8 @@ namespace SSharpÜbergang
                 Console.WriteLine($"Down Channel: {m.commChannel.DownChannel._message}");
                 Console.WriteLine($"tc state: {m.tc.CurrentState}");
                 Console.WriteLine($"cc state: {m.cc.CurrentState}");
+
+                Console.WriteLine($"Motor s({m.cc.Motor.CurrentState}){m.cc.Motor.Angle}");
 
                 foreach (var f in m.Faults)
                 {

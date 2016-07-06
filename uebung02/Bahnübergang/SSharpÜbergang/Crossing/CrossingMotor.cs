@@ -10,9 +10,9 @@ namespace SSharpÜbergang.Crossing
     class CrossingMotor : Component
     {
         const int BARRIER_SPEED = 45;
-        const int MAX_ANGLE = 90; 
+        const int MAX_ANGLE = 90;
 
-        public State CurrentState { get; private set; }
+        public State CurrentState => _myState.State;
 
         private StateMachine<State> _myState = State.Off;
 
@@ -54,7 +54,13 @@ namespace SSharpÜbergang.Crossing
                     (
                     from: State.Off,
                     to: State.Close,
-                    guard: ControllerState == CrossingController.State.Securing && CrossingSesnsorState != CrossingSensor.State.BarrierClosed,
+                    guard: ControllerState == CrossingController.State.Securing && CrossingSesnsorState != CrossingSensor.State.BarrierClosed
+                    )
+                .Transition
+                    (
+                    from: State.Close,
+                    to: State.Close,
+                    guard: CrossingSesnsorState != CrossingSensor.State.BarrierClosed,
                     action: () => Angle -= BARRIER_SPEED
                     )
                 .Transition

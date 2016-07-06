@@ -14,7 +14,7 @@
         public int Position { get; private set; } = START_POSITION;
 
         [Range(0, MAX_SPEED, OverflowBehavior.Clamp)]
-        public int Speed { get; private set; } = MAX_SPEED;
+        public int Speed { get; private set; } = 4;
 
         public extern int Acceleration { get; }
 
