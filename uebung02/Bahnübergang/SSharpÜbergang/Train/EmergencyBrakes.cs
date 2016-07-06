@@ -11,8 +11,8 @@ namespace SSharpÜbergang.Train
 
         const int MAX_BRAKE_DECEL = -5;
 
-        [Range(MAX_BRAKE_DECEL,0, OverflowBehavior.Clamp)]
-        public virtual int Acceleration { get; private set; }
+        [Range(MAX_BRAKE_DECEL, 0, OverflowBehavior.Clamp)]
+        public virtual int Acceleration { get; private set; } = 0;
 
         public extern bool ShouldBreak { get; }
 

@@ -1,5 +1,4 @@
 ﻿using SafetySharp.Modeling;
-using SSharpÜbergang.Environment;
 using SSharpÜbergang.Shared;
 using static SSharpÜbergang.Shared.Globals;
 
@@ -12,6 +11,8 @@ namespace SSharpÜbergang.Train
         [Hidden, Subcomponent] public RadioModule RadioModule;
 
         private  StateMachine<State> _myState = State.Idle;
+
+        public State CurrentState =>  _myState.State;
 
         public bool ShouldBreak => _myState.State == State.NoConfirmReceived;
 
@@ -46,7 +47,7 @@ namespace SSharpÜbergang.Train
 
         }
 
-        private enum State
+        public enum State
         {
             Idle,
             WaitForConfirm,

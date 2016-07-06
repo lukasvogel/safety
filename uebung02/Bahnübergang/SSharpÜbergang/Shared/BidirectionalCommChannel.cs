@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SafetySharp.Modeling;
 
-namespace SSharpÜbergang.Environment
+namespace SSharpÜbergang.Shared
 {
     class BidirectionalCommChannel : Component
     {

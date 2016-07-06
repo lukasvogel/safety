@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SSharpÜbergang.Crossing
 {
-    class Barrier : Component
+    class Crossing : Component
     {
-        public extern int Angle { get; }
+        // exists
     }
 }

@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SSharpÜbergang.Model</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="SafetySharp.Modeling, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ISSE.SafetySharp.1.2.3\lib\net45\SafetySharp.Modeling.dll</HintPath>
@@ -50,9 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Crossing\Crossing.cs" />
+    <Compile Include="Crossing\CrossingController.cs" />
+    <Compile Include="Crossing\CrossingSensor.cs" />
+    <Compile Include="Crossing\CrossingTimer.cs" />
+    <Compile Include="Crossing\CrossingMotor.cs" />
+    <Compile Include="Crossing\TrainLeftSensor.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="Shared\BidirectionalCommChannel.cs" />
     <Compile Include="Shared\CommChannel.cs" />
+    <Compile Include="Shared\Globals.cs" />
     <Compile Include="Shared\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\RadioModule.cs" />
@@ -69,9 +79,7 @@
     <Analyzer Include="..\packages\ISSE.SafetySharp.1.2.3\analyzers\dotnet\cs\SafetySharp.Compiler.dll" />
     <Analyzer Include="..\packages\ISSE.SafetySharp.1.2.3\analyzers\dotnet\cs\SafetySharp.Modeling.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Crossing\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -7,25 +7,29 @@ using System.Threading.Tasks;
 
 namespace SSharpÜbergang.Crossing
 {
-    class BarrierSensor : Component
+    class CrossingSensor : Component
     {
-        public State Barrier { get; private set; }
+        public State CurrentState { get; private set; }
 
         public extern int Angle { get; }
 
+        public CrossingSensor()
+        {
+            CurrentState = State.BarrierOpen;
+        }
+
         public override void Update()
         {
-
             switch (Angle)
             {
                 case 90:
-                    Barrier = State.BarrierOpen;
+                    CurrentState = State.BarrierOpen;
                     break;
                 case 0:
-                    Barrier = State.BarrierClosed;
+                    CurrentState = State.BarrierClosed;
                     break;
                 default:
-                    Barrier = State.NoContact;
+                    CurrentState = State.NoContact;
                     break;
             }
         }
@@ -36,5 +40,6 @@ namespace SSharpÜbergang.Crossing
             BarrierClosed,
             NoContact
         }
+
     }
 }

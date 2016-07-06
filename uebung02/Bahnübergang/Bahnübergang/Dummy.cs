@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SSharpÜbergang.Shared
+namespace Bahnübergang
 {
-    enum Message
+    class Dummy
     {
-        PleaseSecure,
-        PleaseConfirm,
-        IsSecured,
-        Nil
+        public static void Main()
+        {
+
+        }
     }
 }

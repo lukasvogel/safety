@@ -10,8 +10,8 @@
 
         const int MAX_SPEED = 5;
 
-        [Range(START_POSITION,END_POSITION,OverflowBehavior.Clamp)]
-        public int Position { get; private set; }
+        [Range(START_POSITION, END_POSITION, OverflowBehavior.Clamp)]
+        public int Position { get; private set; } = START_POSITION;
 
         [Range(0, MAX_SPEED, OverflowBehavior.Clamp)]
         public int Speed { get; private set; } = MAX_SPEED;

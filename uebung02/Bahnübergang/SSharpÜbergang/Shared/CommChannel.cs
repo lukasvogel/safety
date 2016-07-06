@@ -5,22 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using SafetySharp.Modeling;
 
-namespace SSharpÜbergang.Environment
+namespace SSharpÜbergang.Shared
 {
     class CommChannel : Component
     {
-        private Message _message;
+        public Message _message = Message.Nil;
 
-        public Message Receive()
+        public virtual Message Receive()
         {
             Message result = _message;
             _message = Message.Nil;
             return result;
         }
 
-        public void Send(Message m)
+        public virtual void Send(Message m)
         {
             _message = m;
+        }
+
+        public readonly Fault ChannelFault = new TransientFault();
+
+        [FaultEffect(Fault = nameof(ChannelFault))]
+        public class ChannelFaultEffect : CommChannel
+        {
+            public override void Send(Message m)
+            {
+                _message = Message.Nil;
+            }
         }
     }
 }

@@ -15,13 +15,18 @@ namespace SSharpÜbergang.Crossing
 
         public readonly Fault SensorFault = new TransientFault();
 
+        public TrainLeftSensor()
+        {
+            TrainLeftSignal = false;
+        }
+
         public override void Update()
         {
             if (!TrainLeftSignal && Position >= SP && Position <= SP + 10)
                 TrainLeftSignal = true;
             
             if (TrainLeftSignal && Position < SP)
-                TrainLeftSignal = true;
+                TrainLeftSignal = false;
         }
 
         [FaultEffect(Fault = nameof(SensorFault))]
