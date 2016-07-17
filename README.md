@@ -124,12 +124,16 @@ P(H) <= P(fk2) + P(fs) * P(ft) + P(fs) * P(fk1) + P(fs) * P(fs1)
 
 ## Aufgabe 11
 Siehe uebung05/drucktank.prism
+
 Alle Komponenten sind synchronisiert, damit die parallele Komposition synchron ist.
 
 ## Aufgabe 12
 Siehe uebung05/drucktank.props und uebung05/Exper*
+
 Experiment 1: Faults könne nur im Ersten schritt treten.  -> Wahrscheinlichkeit passt
+
 Experiment 2: Faults könne immer treten. Bounded Untile mit Schrittgröße 1 (insgesamt n) -> Größenordnung past ( P / n hat Größenordnung 10^-5)
+
 Experiment 3: Wie 2, Schrittgröße 10 (insgesamt n) -> Größenordnung past ( P / n hat Größenordnung 10^-5)
 
 ## Aufgabe 13
