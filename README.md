@@ -119,14 +119,18 @@ Es ergeben sich folgende minimal kritische Fehlermengen:
 P(H) <= P(fk2) + P(fs) * P(ft) + P(fs) * P(fk1) + P(fs) * P(fs1)  
       = P(fk2) + P(fs) * (P(ft) + P(fk1) + P(fs1)  
       = 3*10^-5 + 10^-4 * (10^-4 + 3*10^-5 + 3*10^-5)  
-      = 0.00003  
+      <= 0.00003  
       = 0.003%
 
 ## Aufgabe 11
 Siehe uebung05/drucktank.prism
+Alle Komponenten sind synchronisiert, damit die parallele Komposition synchron ist.
 
 ## Aufgabe 12
-TODO
+Siehe uebung05/drucktank.props und uebung05/Exper*
+Experiment 1: Faults könne nur im Ersten schritt treten.  -> Wahrscheinlichkeit passt
+Experiment 2: Faults könne immer treten. Bounded Untile mit Schrittgröße 1 (insgesamt n) -> Größenordnung past ( P / n hat Größenordnung 10^-5)
+Experiment 3: Wie 2, Schrittgröße 10 (insgesamt n) -> Größenordnung past ( P / n hat Größenordnung 10^-5)
 
 ## Aufgabe 13
 In Projekt SSharpÜbergang in Solution Bahnübergang in uebung02/Bahnübergang
