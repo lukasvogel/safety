@@ -1,8 +1,0 @@
-Komponenten:
-  timer fehlt noch
-  zug fährt rückwärts?
-  zugführer verringert geschwindigkeit
-  schranke ist nicht zu/auf - woher wissen wir das?
-  komponente: Bahnübergang glaubt offen, aber ist nicht / andersrum.
-    -> ANSCHLAGSSENSOR MODELLIEREN -> meldet schranke zu obwohl offen, andersrum
-    -> MOTOR Modellieren -> aktiviert nicht obwohl gewollt, aktiviert obwohl nicht gewollt
