@@ -1,4 +1,5 @@
-﻿using SafetySharp.Modeling;
+﻿using System;
+using SafetySharp.Modeling;
 
 namespace SSharpÜbergang.Train
 {
@@ -7,7 +8,7 @@ namespace SSharpÜbergang.Train
 
         // CONSTS
         private readonly int FAULT_SPEED = 1;
-        private readonly int FAULT_POS_OFFSET = 20;
+        private readonly int FAULT_POS_OFFSET = 60;
 
         // INPUTS
         public extern int Position { get; }
@@ -30,7 +31,7 @@ namespace SSharpÜbergang.Train
         [FaultEffect(Fault = nameof(OdometerPos))]
         public class OdometerPosEffect : Odometer
         {
-            public override int ReportedPosition => base.Position - FAULT_POS_OFFSET;
+            public override int ReportedPosition => Math.Max(0,Position - FAULT_POS_OFFSET);
         }
 
         [FaultEffect(Fault = nameof(OdometerSpeed))]

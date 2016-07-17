@@ -9,9 +9,7 @@ namespace SSharpÜbergang.Shared
     class Globals
     {
 
-        public static readonly int EP = 10;
-        public static readonly int AP = 30;
-        public static readonly int BEP = 80;
+        public const int MAX_DECEL = 5;
         public static readonly int GP = 95;
         public static readonly int SP = 100;
     }

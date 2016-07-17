@@ -14,7 +14,6 @@ namespace SSharpÜbergang.Shared
         public virtual Message Receive()
         {
             Message result = _message;
-            _message = Message.Nil;
             return result;
         }
 

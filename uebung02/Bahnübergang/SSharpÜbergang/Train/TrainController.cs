@@ -14,8 +14,12 @@ namespace SSharpÜbergang.Train
 
         public State CurrentState =>  _myState.State;
 
-        public bool ShouldBreak => _myState.State == State.NoConfirmReceived;
+        public bool ShouldBrake => _myState.State == State.NoConfirmReceived;
 
+
+        private int BEP => GP - 2 - (Odometer.ReportedSpeed* Odometer.ReportedSpeed);
+        private int AP => BEP - 2*Odometer.ReportedSpeed;
+        private int EP => AP - Odometer.ReportedSpeed*(1 + Odometer.ReportedSpeed);
         public override void Update()
         {
             Update(Odometer,Brakes,RadioModule);
@@ -36,12 +40,15 @@ namespace SSharpÜbergang.Train
                 .Transition(
                     from: State.WaitForConfirm,
                     to: State.ConfirmReceived,
-                    guard: Odometer.ReportedPosition < BEP && RadioModule.Receive() == Message.IsSecured
+                    guard: Odometer.ReportedPosition < BEP && RadioModule.Receive() == Message.IsSecured,
+                    action: () => RadioModule.Send(Message.Nil)
                 )
                 .Transition(
                     from: State.WaitForConfirm,
                     to: State.NoConfirmReceived,
-                    guard: Odometer.ReportedPosition >= BEP && RadioModule.Receive() != Message.IsSecured
+                    guard: Odometer.ReportedPosition >= BEP,
+                    action: () => RadioModule.Send(Message.Nil)
+
                 );
 
 

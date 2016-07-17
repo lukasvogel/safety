@@ -85,7 +85,7 @@ MODULE _P_KommEinheitUebergang(v)
 	TRANS
 		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_Sichere & (v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_SAnschlagssensor = L_SchrankeUnten) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
-		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & ((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
+		 ( v.V_KommEinheitUebergang = L_Sichere & next(v.V_KommEinheitUebergang) = L_Sichere & ((v.V_FaultSecured != L_No) & (v.V_KanalZuUeb = L_BitteUmBest)) & (next(v.V_KanalZuZug) = L_Nil))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Oeffne & ((v.V_UeberfahrtSensor = L_Zu) | (v.V_Timer = L_Triggered)) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
 		 ( v.V_KommEinheitUebergang = L_Gesichert & next(v.V_KommEinheitUebergang) = L_Gesichert & (v.V_KanalZuUeb = L_BitteUmBest) & (next(v.V_KanalZuZug) = L_IstGesichert))  |
 		 ( v.V_KommEinheitUebergang = L_WarteAufAnfrage & next(v.V_KommEinheitUebergang) = L_WarteAufAnfrage & !(v.V_KanalZuUeb = L_BitteSichern) & (next(v.V_KanalZuZug) = v.V_KanalZuZug))  |
@@ -220,7 +220,7 @@ DEFINE noFaults := v.V_FailureBrakes = L_No
 DEFINE SP := 100;
 DEFINE GP := 95;
 
--- ****SOLLVERHALTEN****
+-- ****SOLLVERHALTEN**** 
 
 -- WICHTIGSTE EIGENSCHAFT
 

@@ -52,7 +52,7 @@ namespace SSharpÜbergang
             Bind(nameof(train.Acceleration), nameof(tc.Brakes.Acceleration));
 
             // Bind controller to breaks
-            Bind(nameof(tc.Brakes.ShouldBreak), nameof(tc.ShouldBreak));
+            Bind(nameof(tc.Brakes.ShouldBrake), nameof(tc.ShouldBrake));
 
 
             Crossing = new Crossing.Crossing();
@@ -88,19 +88,23 @@ namespace SSharpÜbergang
         
         public static void Main()
         {
+
+            Console.WriteLine("Hallo");
+
             var m = new Model();
 
             //PrintCounterExample(results.CounterExample);
+
 
             //DCCA
             var safetyRestul = SafetyAnalysis.AnalyzeHazard(m, m.Hazard);
             Console.WriteLine(safetyRestul);
 
-            //foreach (var x in safetyRestul.CounterExamples)
-            //{
-            //    Console.WriteLine($"Counter ex {x.Key}:");
-            //    PrintCounterExample(x.Value);
-            //}
+            foreach (var x in safetyRestul.CounterExamples)
+            {
+                Console.WriteLine($"Counter ex {x.Key}:");
+                PrintCounterExample(x.Value);
+            }
 
             Console.ReadLine();
         }
@@ -129,7 +133,11 @@ namespace SSharpÜbergang
 
                 foreach (var f in m.Faults)
                 {
-                    Console.WriteLine($"Fault {f.Name} : {f.IsActivated}");
+                    if (f.IsActivated)
+                    {
+                        Console.WriteLine($"Fault {f.Name} : {f.IsActivated}");
+
+                    }
                 }
 
 

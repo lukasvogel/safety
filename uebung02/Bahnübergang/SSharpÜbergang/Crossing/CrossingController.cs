@@ -40,15 +40,14 @@ namespace SSharpÜbergang.Crossing
                 .Transition
                     (
                     from: State.WaitForMessage,
-                    to: State.Securing,
-                    guard: RadioModule.Receive() == Message.PleaseSecure
+                    to: State.WaitForMessage,
+                    guard: RadioModule.Receive() != Message.PleaseSecure
                     )
                 .Transition
                     (
-                    from: State.Securing,
+                    from: State.WaitForMessage,
                     to: State.Securing,
-                    guard: RadioModule.Receive() == Message.PleaseConfirm,
-                    action: () => RadioModule.Send(Message.IsSecured)
+                    guard: RadioModule.Receive() == Message.PleaseSecure
                     )
                 .Transition
                     (

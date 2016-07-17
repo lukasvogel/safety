@@ -1,4 +1,5 @@
 ﻿using SafetySharp.Modeling;
+using static SSharpÜbergang.Shared.Globals;
 
 namespace SSharpÜbergang.Train
 {
@@ -9,18 +10,17 @@ namespace SSharpÜbergang.Train
             Acceleration = 0;
         }
 
-        const int MAX_BRAKE_DECEL = -5;
 
-        [Range(MAX_BRAKE_DECEL, 0, OverflowBehavior.Clamp)]
+        [Range(0-MAX_DECEL, 0, OverflowBehavior.Clamp)]
         public virtual int Acceleration { get; private set; } = 0;
 
-        public extern bool ShouldBreak { get; }
+        public extern bool ShouldBrake { get; }
 
         public readonly Fault FailingBrakes = new PermanentFault();
 
         public override void Update()
         {
-            if (ShouldBreak)
+            if (ShouldBrake)
                 Acceleration -= 1;
         }
 

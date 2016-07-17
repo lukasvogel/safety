@@ -20,7 +20,7 @@
         <transition Id="8a3f33fe-d100-451b-9d25-9a7800a0a10e" guard="SAnschlagssensor == SchrankeUnten" label="SAnschlagssensor == SchrankeUnten">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Gesichert" />
         </transition>
-        <transition Id="32b837b7-b0de-4f83-806b-0fd4b89b8367" guard="FaultSecured != No &amp;&amp; KanalZuUeb == BitteUmBest" action="KanalZuZug := IstGesichert" label="FaultSecured != No &amp;&amp; KanalZuUeb == BitteUmBest // KanalZuZug := IstGesichert" precondition="true">
+        <transition Id="32b837b7-b0de-4f83-806b-0fd4b89b8367" guard="FaultSecured != No &amp;&amp; KanalZuUeb == BitteUmBest" action="KanalZuZug := Nil" label="FaultSecured != No &amp;&amp; KanalZuUeb == BitteUmBest // KanalZuZug := Nil" precondition="true">
           <stateMoniker name="/57db7684-b0d6-493f-a6f1-56819fb03789/Sichere" />
         </transition>
       </successors>
