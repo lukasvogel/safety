@@ -46,14 +46,6 @@ LTLSPEC (G noFaults) -> (F (v.V_KanalZuZug = L_IstGesichert -> v.V_Position < GP
 -- Am Ende öffnet sich der Übergang immer
 LTLSPEC (G noFaults) -> (F v.V_KommEinheitUebergang = L_Oeffne);
 
--- Die Schranke ist erst offen, dann geschlossen (wenn Zug Sicherung erfrägt) und am Ende auf jeden Fall wieder offen
-LTLSPEC (G noFaults) -> 
-		 (G ( v.V_SAnschlagssensor = L_SchrankeOben  U
-		 ( v.V_SAnschlagssensor = L_KeinKontakt U
-		 (	v.V_SAnschlagssensor = L_SchrankeUnten U
-		 ( v.V_SAnschlagssensor = L_KeinKontakt U
-		    (v.V_SAnschlagssensor = L_SchrankeOben & v.V_Position > 100))))));
-
 -- Wenn sich die Schranke öffnet, ist der Zug hinter dem Gefahrenpunkt oder der Timer ist abgelaufen
 LTLSPEC (G noFaults) -> (G ((v.V_SAnschlagssensor = L_SchrankeUnten & X v.V_SAnschlagssensor = L_KeinKontakt) -> (v.V_Countdown = 0 | v.V_Position > SP)));
 
@@ -80,13 +72,13 @@ LTLSPEC G ((v.V_FaultHodometerPos != L_No & v.V_Position < 100) -> X (v.V_Positi
 
 --- FaultHodometerSpeed
 -- Wenn die Geschwindigkeitsanzeige falsche Werte liefert, ist die gemessene Geschwindigkeit im nächsten Schritt immer 1
-LTLSPEC G (v.V_FaultHodometerSpeed != L_No & v.V_Position <= 115 -> X v.V_ReportedSpeed = 1)
+LTLSPEC G (v.V_FaultHodometerSpeed != L_No & v.V_Position <= 115 -> X v.V_ReportedSpeed = 1);
 
 --- FailureSMotor
 -- Wenn der Schrankenmotor versagt, während die Schranke offen ist, geht sie nie zu
 LTLSPEC (v.V_SchrankenWinkel = 90 U v.V_FailureSMotor != L_No) -> G v.V_SchrankenWinkel != 0;
 
--- FailureBreaks
+-- FailureBrakes
 -- Wenn die Bremsen irgendwann versagen während der Zug fährt, hält der Zug niemals an
 LTLSPEC (F v.V_FailureBrakes != L_No & G v.V_Geschwindigkeit > 0) -> G v.V_Geschwindigkeit != 0;
 
@@ -96,8 +88,8 @@ CTLSPEC EF (v.V_Position < SP & v.V_UeberfahrtSensor = L_Zu);
 
 -- FaultTimer
 -- Der Timer triggered in manchen Pfaden bevor der Zug überhaupt am Gefahrenpunkt ist, obwohl er nicht abgebremst hat
-CTLSPEC EF (v.V_FaultTimer != L_No & v.V_Position < GP & v.V_Geschwindigkeit > 0 & v.V_Timer = L_Triggered)
+CTLSPEC EF (v.V_FaultTimer != L_No & v.V_Position < GP & v.V_Geschwindigkeit > 0 & v.V_Timer = L_Triggered);
 
 -- FaultSecured
--- Es gibt mindestens einen Übergang, indem der Übergang meldet, er sei gesichert, obwohl die Schranke nicht unten ist
-CTLSPEC EF (v.V_KanalZuZug = L_IstGesichert & v.V_SchrankenWinkel != 0)
+-- Es gibt mindestens einen Pfad, indem der Übergang meldet, er sei gesichert, obwohl die Schranke nicht unten ist
+CTLSPEC EF (v.V_KanalZuZug = L_IstGesichert & v.V_SchrankenWinkel != 0);
