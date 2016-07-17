@@ -1,8 +1,42 @@
 # safety
 
 ## Aufgabe 1
+* Bahnschrankenmotor
+	- Schließt nicht o.g.
+	- Schließt o.n.g.
+* Anschlagssensor
+	- Meldet fälschlich Schranke unten
+	- Meldet fälschlich Schranke oben
+* Notbremse
+	- bremst nicht o.g.
+	- bremst o.n.g.
+* Lichtsignalanlage
+	- nicht aktiviert o.g.
+	- aktiviert o.n.g.
+* Hodometer
+	- zeigt zu geringe Geschwindigkeit an
+	- zeigt zu hohe Geschwindigkeit an
+	- zeigt falsche Position an
+* Übergangssensor
+	- meldet Überfahrt, obwohl kein Zug da war
+	- registriert überfahrenden Zug nicht
+* Zentralregister
+	- kennt Bahnübergang nicht
+	- meldet falsche Parameter des Bahnübergangs (Schließzeit, Position)
+* Funkübertragung
+	- überträgt Nachricht nicht
+	- überträgt falsche Nachricht
+* Timer
+	- triggered nicht obwohl abgelaufen
+	- triggered obwohl nicht abgelaufen
 
-## Aufgabe 3
+## Aufgabe 2
+Siehe uebung01/aufgabe2.png
+
+## Aufgabe 3a
+Siehe uebung01/aufgabe3.xslx
+
+## Aufgabe 3b
 Das zugehörige VisualStudio-Projekt ist in uebung02/Bahnübergang.
 Wir haben zusätzlich noch folgende Störungen ausgewählt:
 
@@ -57,7 +91,10 @@ Folgende Mengen minimal kritische Mengen ergeben sich:
 * \{ FaultSecured, FailureSMotor \}
 
 ## Aufgabe 8
-TODO
+- In unserem Fault Tree war weder **FaultHodometerPos**, noch **FaultHodometerSpeed** ein Single Point of Failure, da wir davon ausgingen, dass dadurch nur der BEP falsch berechnet wird, nicht aber bereits der Anfragepunkt. Das war natürlich ein Denkfehler. In unserem Fault Tree muss noch die Sicherung des Übergangs fehlschlagen, damit es zum Hazard kommt.
+- **FaultSensor** und **FaultTimer** sind auch in unserem Fault Tree Single Points of Failure.
+- **FailureBrakes** und **FailureSMotor** wurde auch richtig als zweielementiges Cut-Set erkannt.
+- **FaultSecured** haben wir in unserem FaultTree nicht explizit modelliert, dieser Fehler ist uns nicht eingefallen. Funktional hat die kritische Fehlermenge \{FaultSecured, FailureSMotor\} aber Ähnlichkeiten mit dem Minimal Cut Set \{Schrankenmotor defekt, Lichtsignal defekt, Schrankensensor defekt \}, da "Schrankenmotor defekt" und "Lichtsignal defekt" zusammen mit "Schrankensensor defekt" auch dazu führt, dass der Bahnübergang eine Sicherungsnachricht sendet, obwohl er nicht gesichert ist.
 
 ## Aufgabe 9
 Siehe uebung05/Drucktank.smv
